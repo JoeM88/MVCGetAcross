@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">GetAcross2</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="photo_translate_title">Photo</string>
+    <string name="text_translate_title">Text</string>
+    <string name="voice_recorder_prompt">What would you like me to translate?</string>
+    <string name="empty_translate_text_input">Please enter text to translate</string>
+    <string name="textToSpeech_not_initialized_error">TextToSpeech not initialized</string>
+    <string name="textToSpeech_initialization_failed_error">Initialization Failed</string>
+    <string name="unsupported_language_error">This language is not supported</string>
+    <string name="Translated_text_section_title">What they will hear:</string>
+    <string name="User_input_translate_text_hint">Enter text to translate</string>
+    <string name="navigation_saved_chats">Saved Chats</string>
+
+    <string name="snapshot_button">Snapshot button</string>
+    <string name="action_save_translation_title">Save text translation</string>
+    <string name="action_speak_title">Speak Translation</string>
+
+    <string name="english_code_name">en</string>
+    <string name="spanish_code_name">es</string>
+    <string name="invalid_text_toast_message">You must enter a word or sentence</string>
+    <string name="saveChat_dialog_hint">eg: How to say Hi</string>
+    <string name="save_chat_dialog_title">Save your chat</string>
+    <string name="save_chat_dialog_positiveButton">Save Chat</string>
+    <string name="chatDialog_negative_button">Cancel</string>
+    <string name="empty_text_fields">There is nothing to save</string>
+</resources>
