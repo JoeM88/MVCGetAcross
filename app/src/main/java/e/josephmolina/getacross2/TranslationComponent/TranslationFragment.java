@@ -42,15 +42,30 @@ public class TranslationFragment extends Fragment implements TranslationComponen
         return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        userEnteredText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                translationController.makeAPICall(charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+    }
+
 
     @Override
     public void displayTranslatedText(String text) {
-        // translatedTextResults.setText(text);
-    }
-
-    @Override
-    public String getTranslatedText(String text) {
-        return null;
+        translatedTextResults.setText(text);
     }
 
 

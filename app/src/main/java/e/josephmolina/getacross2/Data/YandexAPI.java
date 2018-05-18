@@ -1,14 +1,17 @@
 package e.josephmolina.getacross2.Data;
 
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import e.josephmolina.getacross2.TranslationComponent.TranslationComponentInterface;
+import e.josephmolina.getacross2.TranslationComponent.TranslationController;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
-public class YandexAPI implements TranslationComponentInterface {
+public class YandexAPI implements TranslationSourceInterface {
     private final static String YANDEX_BASE_URL = "https://translate.yandex.net/api/v1.5/tr.json/";
     private final static String TRANSLATION_KEY_PARAMETER = "translate?key=";
     private final static String DETECTION_KEY_PARAMETER = "detect?key=";
@@ -17,6 +20,7 @@ public class YandexAPI implements TranslationComponentInterface {
 
     private static Retrofit retrofit;
     private static YandexService yandexService;
+    private static String results;
 
     private YandexAPI() {
     }
@@ -27,19 +31,16 @@ public class YandexAPI implements TranslationComponentInterface {
         }
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl(YANDEX_BASE_URL).build();
+                    .baseUrl(YANDEX_BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
         }
         yandexService = retrofit.create(YandexService.class);
         return yandexService;
     }
 
-    @Override
-    public void displayTranslatedText(String text) {
-
-    }
-
-    @Override
-    public String getTranslatedText(String text) {
+    @Nullable
+    public static String translateText(String text) {
         Call<YandexResponse> call = yandexService.apiCallForTranslation(text);
         call.enqueue(new Callback<YandexResponse>() {
             @Override
@@ -52,6 +53,11 @@ public class YandexAPI implements TranslationComponentInterface {
 
             }
         });
+        return null;
+    }
+
+    @Override
+    public String getTranslateText(String text) {
         return null;
     }
 }
