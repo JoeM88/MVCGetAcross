@@ -1,5 +1,5 @@
 package e.josephmolina.getacross2.TranslationComponent;
 
-public interface TranslationComponentInterface {
+public interface TranslationLayout {
     void displayTranslatedText(String text);
 }

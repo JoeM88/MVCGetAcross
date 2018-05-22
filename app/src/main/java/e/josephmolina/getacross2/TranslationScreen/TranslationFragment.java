@@ -1,4 +1,4 @@
-package e.josephmolina.getacross2.TranslationComponent;
+package e.josephmolina.getacross2.TranslationScreen;
 
 import android.os.Bundle;
 import android.app.Fragment;
@@ -9,19 +9,24 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import butterknife.Unbinder;
 import e.josephmolina.getacross2.R;
 
-public class TranslationFragment extends Fragment implements TranslationComponentInterface {
+public class TranslationFragment extends Fragment implements TranslationLayout {
 
     @BindView(R.id.textToTranslateEditText)
     EditText userEnteredText;
     @BindView(R.id.translatedTextResults)
     TextView translatedTextResults;
+    @BindView(R.id.translateButton)
+    Button testButton;
 
     private Unbinder unbinder;
     private TranslationController translationController;
@@ -42,32 +47,20 @@ public class TranslationFragment extends Fragment implements TranslationComponen
         return view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        userEnteredText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                translationController.makeAPICall(charSequence.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
-        });
+    @OnTextChanged(R.id.textToTranslateEditText)
+    public void onTextChanged(CharSequence charSequence) {
+        Log.d("Text was changed", charSequence.toString());
     }
-
 
     @Override
     public void displayTranslatedText(String text) {
         translatedTextResults.setText(text);
     }
 
+    @OnClick(R.id.translateButton)
+    public void onTranslateButton() {
+        translationController.detectLanguage(userEnteredText.getText().toString());
+    }
 
     @Override public void onDestroyView() {
         super.onDestroyView();
