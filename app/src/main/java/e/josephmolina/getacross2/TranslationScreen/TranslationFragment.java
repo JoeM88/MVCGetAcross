@@ -2,9 +2,6 @@ package e.josephmolina.getacross2.TranslationScreen;
 
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.annotation.Nullable;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +35,6 @@ public class TranslationFragment extends Fragment implements TranslationLayout {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_translation, container, false);
         unbinder = ButterKnife.bind(this, view);
 
