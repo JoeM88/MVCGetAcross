@@ -1,4 +1,4 @@
-package e.josephmolina.getacross2.Data;
+package e.josephmolina.getacross2.Model;
 
 public class YandexResponse {
 
