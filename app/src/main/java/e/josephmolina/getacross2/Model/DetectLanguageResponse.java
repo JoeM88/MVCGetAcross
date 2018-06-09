@@ -16,7 +16,4 @@ public class DetectLanguageResponse {
         return lang;
     }
 
-    public void setLang(String lang) {
-        this.lang = lang;
-    }
 }
