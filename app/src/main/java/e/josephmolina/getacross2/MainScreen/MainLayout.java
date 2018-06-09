@@ -1,6 +1,5 @@
 package e.josephmolina.getacross2.MainScreen;
 
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -13,8 +12,10 @@ public class MainLayout {
 
     private MainLayoutListener mainLayoutListener;
     private MainActivity mainActivity;
-    @BindView(R.id.translateButton) Button translateButton;
-    @BindView(R.id.textToTranslateEditText) EditText spokenText;
+    @BindView(R.id.translateButton)
+    Button translateButton;
+    @BindView(R.id.textToTranslateEditText)
+    EditText spokenText;
 
     public MainLayout(final MainActivity mainActivity, MainLayoutListener mainLayoutListener) {
         mainActivity.setContentView(R.layout.activity_main);
@@ -27,7 +28,7 @@ public class MainLayout {
         mainLayoutListener.onTranslateClicked(spokenText.getText().toString());
     }
 
-   interface MainLayoutListener {
+    interface MainLayoutListener {
         void onTranslateClicked(String text);
     }
 }
