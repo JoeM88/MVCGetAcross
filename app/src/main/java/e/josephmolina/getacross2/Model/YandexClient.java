@@ -1,20 +1,17 @@
 package e.josephmolina.getacross2.Model;
 
-import android.support.annotation.NonNull;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Query;
-import rx.Observable;
-import rx.Single;
 
-public class YandexClient{
+public class YandexClient {
     private final static String YANDEX_BASE_URL = "https://translate.yandex.net/api/v1.5/tr.json/";
     private static Retrofit retrofit;
     private static YandexApi yandexApi;
 
-    private YandexClient() {}
+    private YandexClient() {
+    }
 
     public static YandexApi getRetrofitInstance() {
         if (yandexApi != null) {

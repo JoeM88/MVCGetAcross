@@ -1,6 +1,5 @@
 package e.josephmolina.getacross2.MainScreen;
 
-import android.util.Log;
 import android.widget.TextView;
 
 import e.josephmolina.getacross2.Model.DetectLanguageResponse;
@@ -27,15 +26,15 @@ public class MainController implements MainLayout.MainLayoutListener {
     }
 
     @Override
-    public void onTranslateClicked() {
-        YandexClient.getRetrofitInstance().testDetection(API_KEY, "Hello")
+    public void onTranslateClicked(String text) {
+        YandexClient.getRetrofitInstance().getSpokenLanguage(API_KEY, text)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleSubscriber<DetectLanguageResponse>() {
                     @Override
                     public void onSuccess(DetectLanguageResponse detectLanguageResponse) {
                         String languagePair = getLanguagePair(detectLanguageResponse.getLang());
-                        translateText(languagePair, "Hello");
+                        translateText(languagePair, text);
                     }
 
                     @Override
@@ -46,7 +45,7 @@ public class MainController implements MainLayout.MainLayoutListener {
     }
 
     private void translateText(String languagePair, String text) {
-        YandexClient.getRetrofitInstance().testTranslation(API_KEY, text, languagePair)
+        YandexClient.getRetrofitInstance().getTranslation(API_KEY, text, languagePair)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleSubscriber<YandexResponse>() {

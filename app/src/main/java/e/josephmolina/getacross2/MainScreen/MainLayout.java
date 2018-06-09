@@ -1,41 +1,33 @@
 package e.josephmolina.getacross2.MainScreen;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
-import e.josephmolina.getacross2.Model.YandexClient;
-import e.josephmolina.getacross2.Model.YandexResponse;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import e.josephmolina.getacross2.R;
-import rx.Observer;
-import rx.Scheduler;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class MainLayout {
 
     private MainLayoutListener mainLayoutListener;
-    private Button translateButton;
-    private Subscription subscription;
-    private String TAG = "Layout";
-    private String API_KEY = "trnsl.1.1.20180131T235045Z.b989ff118bdf2e59.0fe722c34ea88e447d238e4c0e8c5ac56d46522d";
-
+    private MainActivity mainActivity;
+    @BindView(R.id.translateButton) Button translateButton;
+    @BindView(R.id.textToTranslateEditText) EditText spokenText;
 
     public MainLayout(final MainActivity mainActivity, MainLayoutListener mainLayoutListener) {
         mainActivity.setContentView(R.layout.activity_main);
+        ButterKnife.bind(this, mainActivity);
         this.mainLayoutListener = mainLayoutListener;
+    }
 
-        translateButton = mainActivity.findViewById(R.id.translateButton);
-        translateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mainLayoutListener.onTranslateClicked();
-            }
-        });
+    @OnClick(R.id.translateButton)
+    public void onTranslateButton() {
+        mainLayoutListener.onTranslateClicked(spokenText.getText().toString());
     }
 
    interface MainLayoutListener {
-        void onTranslateClicked();
+        void onTranslateClicked(String text);
     }
 }
