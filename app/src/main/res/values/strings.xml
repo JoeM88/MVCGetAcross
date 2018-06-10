@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">Say What</string>
 
-
-    <string name="empty_translate_text_input">Please enter text to translate</string>
     <string name="unsupported_language_error">This language is not supported</string>
+    <string name="main_screen_input_hint">What would you like me to translate?</string>
+    <string name="empty_text_error_message">You must enter a word or sentence</string>
+
+    <!-- Yandex code names -->
     <string name="english_code_name">en</string>
     <string name="spanish_code_name">es</string>
-    <string name="invalid_text_toast_message">You must enter a word or sentence</string>
 
 </resources>
