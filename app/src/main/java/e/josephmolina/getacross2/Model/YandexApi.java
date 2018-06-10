@@ -16,5 +16,4 @@ public interface YandexApi {
             @Query("key") String API_KEY,
             @Query("text") String text,
             @Query("lang") String lang);
-
 }

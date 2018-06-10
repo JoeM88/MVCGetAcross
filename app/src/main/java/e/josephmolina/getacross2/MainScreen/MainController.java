@@ -2,7 +2,6 @@ package e.josephmolina.getacross2.MainScreen;
 
 import android.widget.TextView;
 import android.widget.Toast;
-
 import e.josephmolina.getacross2.Model.DetectLanguageResponse;
 import e.josephmolina.getacross2.Model.YandexClient;
 import e.josephmolina.getacross2.Model.YandexResponse;
@@ -10,7 +9,6 @@ import e.josephmolina.getacross2.R;
 import rx.SingleSubscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
 
 public class MainController implements MainLayout.MainLayoutListener {
 
