@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Que Dijo?</string>
+
+    <string name="unsupported_language_error">Este lenguaje no es compatible</string>
+    <string name="main_screen_input_hint">¿Qué te gustaría que tradujera?</string>
+    <string name="empty_text_error_message">Debes ingresar una palabra o frase</string>
+    <string name="translate_button_text">Traducir</string>
+
+    <!-- Yandex code names -->
+    <string name="english_code_name">en</string>
+    <string name="spanish_code_name">es</string>
+</resources>
