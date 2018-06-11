@@ -1,4 +1,4 @@
-package e.josephmolina.getacross2.MainScreen;
+package e.josephmolina.saywhat.MainScreen;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

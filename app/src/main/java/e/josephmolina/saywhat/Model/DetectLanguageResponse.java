@@ -1,4 +1,4 @@
-package e.josephmolina.getacross2.Model;
+package e.josephmolina.saywhat.Model;
 
 public class DetectLanguageResponse {
     private Integer code;

@@ -1,4 +1,4 @@
-package e.josephmolina.getacross2;
+package e.josephmolina.saywhat;
 
 import org.junit.Test;
 

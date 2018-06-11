@@ -1,4 +1,4 @@
-package e.josephmolina.getacross2.Model;
+package e.josephmolina.saywhat.Model;
 
 
 import retrofit2.Retrofit;

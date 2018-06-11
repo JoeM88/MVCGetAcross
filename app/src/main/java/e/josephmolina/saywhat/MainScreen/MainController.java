@@ -1,10 +1,10 @@
-package e.josephmolina.getacross2.MainScreen;
+package e.josephmolina.saywhat.MainScreen;
 
 import android.widget.TextView;
 import android.widget.Toast;
-import e.josephmolina.getacross2.Model.YandexClient;
-import e.josephmolina.getacross2.Model.YandexResponse;
-import e.josephmolina.getacross2.R;
+import e.josephmolina.saywhat.Model.YandexClient;
+import e.josephmolina.saywhat.Model.YandexResponse;
+import e.josephmolina.saywhat.R;
 import rx.Single;
 import rx.SingleSubscriber;
 import rx.android.schedulers.AndroidSchedulers;
