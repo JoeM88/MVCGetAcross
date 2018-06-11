@@ -2,10 +2,10 @@ package e.josephmolina.getacross2.MainScreen;
 
 import android.widget.TextView;
 import android.widget.Toast;
-import e.josephmolina.getacross2.Model.DetectLanguageResponse;
 import e.josephmolina.getacross2.Model.YandexClient;
 import e.josephmolina.getacross2.Model.YandexResponse;
 import e.josephmolina.getacross2.R;
+import rx.Single;
 import rx.SingleSubscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -21,45 +21,34 @@ public class MainController implements MainLayout.MainLayoutListener {
         this.mainActivity = mainActivity;
     }
 
+    private Single<YandexResponse> getTranslationTest(String text) {
+        return YandexClient.getRetrofitInstance().getSpokenLanguage(API_KEY, text).flatMap(detectLanguageResponse -> {
+            String languagePair = getLanguagePair(detectLanguageResponse.getLang());
+            return YandexClient.getRetrofitInstance().getTranslation(API_KEY, text, languagePair);
+        });
+    }
+
     @Override
     public void onTranslateClicked(String text) {
         if (text.isEmpty()) {
             displayToast("You must enter a word or sentence");
         } else {
-            YandexClient.getRetrofitInstance().getSpokenLanguage(API_KEY, text)
+            getTranslationTest(text)
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new SingleSubscriber<DetectLanguageResponse>() {
+                    .subscribe(new SingleSubscriber<YandexResponse>() {
                         @Override
-                        public void onSuccess(DetectLanguageResponse detectLanguageResponse) {
-                            String languagePair = getLanguagePair(detectLanguageResponse.getLang());
-                            translateText(languagePair, text);
+                        public void onSuccess(YandexResponse value) {
+                            TextView resultView = mainActivity.findViewById(R.id.translatedTextResults);
+                            resultView.setText(value.getText().get(0));
                         }
 
                         @Override
                         public void onError(Throwable error) {
-                            displayNetworkError(error);
+                            displayToast(error.getMessage());
                         }
                     });
         }
-    }
-
-    private void translateText(String languagePair, String text) {
-        YandexClient.getRetrofitInstance().getTranslation(API_KEY, text, languagePair)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleSubscriber<YandexResponse>() {
-                    @Override
-                    public void onSuccess(YandexResponse value) {
-                        TextView resultView = mainActivity.findViewById(R.id.translatedTextResults);
-                        resultView.setText(value.getText().get(0));
-                    }
-
-                    @Override
-                    public void onError(Throwable error) {
-                        displayNetworkError(error);
-                    }
-                });
     }
 
     private void displayNetworkError(Throwable error) {
@@ -79,7 +68,7 @@ public class MainController implements MainLayout.MainLayoutListener {
                 break;
 
             case "es":
-                languagePair.append("es-").append(spokenLanguage);
+                languagePair.append(spokenLanguage).append("-en");
                 break;
         }
         return languagePair.toString();
