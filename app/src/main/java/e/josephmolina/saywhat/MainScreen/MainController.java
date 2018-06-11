@@ -2,6 +2,8 @@ package e.josephmolina.saywhat.MainScreen;
 
 import android.widget.TextView;
 import android.widget.Toast;
+
+import e.josephmolina.saywhat.BuildConfig;
 import e.josephmolina.saywhat.Model.YandexClient;
 import e.josephmolina.saywhat.Model.YandexResponse;
 import e.josephmolina.saywhat.R;
@@ -12,7 +14,7 @@ import rx.schedulers.Schedulers;
 
 public class MainController implements MainLayout.MainLayoutListener {
 
-    private String API_KEY = "trnsl.1.1.20180131T235045Z.b989ff118bdf2e59.0fe722c34ea88e447d238e4c0e8c5ac56d46522d";
+    private String API_KEY = BuildConfig.ApiKey;
     private MainLayout mainLayout;
     private MainActivity mainActivity;
 
