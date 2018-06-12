@@ -36,7 +36,7 @@ public class MainController implements MainLayout.MainLayoutListener {
     @Override
     public void onTranslateClicked(String text) {
         if (text.isEmpty()) {
-            displayToast("You must enter a word or sentence");
+            displayToast(mainActivity.getResources().getString(R.string.empty_text_error_message));
         } else {
             final ProgressBar progressBar = mainActivity.findViewById(R.id.indeterminateBar);
             getTranslationTest(text)
