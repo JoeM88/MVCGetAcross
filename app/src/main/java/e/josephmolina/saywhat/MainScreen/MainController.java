@@ -2,9 +2,10 @@ package e.josephmolina.saywhat.MainScreen;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import e.josephmolina.saywhat.BuildConfig;
 import e.josephmolina.saywhat.Model.YandexClient;
 import e.josephmolina.saywhat.Model.YandexResponse;
@@ -19,6 +20,7 @@ public class MainController implements MainLayout.MainLayoutListener {
     private String API_KEY = BuildConfig.ApiKey;
     private MainLayout mainLayout;
     private MainActivity mainActivity;
+    private static final int REQ_CODE_SPEECH_INPUT = 100;
 
     public MainController(MainActivity mainActivity) {
         mainLayout = new MainLayout(mainActivity, this);
@@ -37,12 +39,18 @@ public class MainController implements MainLayout.MainLayoutListener {
         if (text.isEmpty()) {
             displayToast("You must enter a word or sentence");
         } else {
+            final ProgressBar progressBar = mainActivity.findViewById(R.id.indeterminateBar);
             getTranslationTest(text)
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe(() -> {
+                        progressBar.setVisibility(View.VISIBLE);
+                    })
                     .subscribe(new SingleSubscriber<YandexResponse>() {
                         @Override
                         public void onSuccess(YandexResponse value) {
+                            progressBar.setVisibility(View.GONE);
+
                             TextView resultView = mainActivity.findViewById(R.id.translatedTextResults);
                             resultView.setText(value.getText().get(0));
                         }

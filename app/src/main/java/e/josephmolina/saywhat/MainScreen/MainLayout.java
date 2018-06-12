@@ -36,8 +36,10 @@ public class MainLayout {
         mainLayoutListener.onYandexCreditClicked();
     }
 
+
     interface MainLayoutListener {
         void onTranslateClicked(String text);
+
         void onYandexCreditClicked();
     }
 }
