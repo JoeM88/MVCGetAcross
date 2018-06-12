@@ -9,5 +9,6 @@
     <!-- Yandex code names -->
     <string name="english_code_name">en</string>
     <string name="spanish_code_name">es</string>
+    <string name="yandex_credits">Powered by Yandex.Translate</string>
 
 </resources>
