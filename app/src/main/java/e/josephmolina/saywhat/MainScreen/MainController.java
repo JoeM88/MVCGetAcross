@@ -1,5 +1,7 @@
 package e.josephmolina.saywhat.MainScreen;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +52,15 @@ public class MainController implements MainLayout.MainLayoutListener {
                             displayToast(error.getMessage());
                         }
                     });
+        }
+    }
+
+    @Override
+    public void onYandexCreditClicked() {
+        Uri webpage = Uri.parse("http://translate.yandex.com/");
+        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        if (intent.resolveActivity(mainActivity.getPackageManager()) != null) {
+            mainActivity.startActivity(intent);
         }
     }
 
