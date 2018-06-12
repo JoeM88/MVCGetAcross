@@ -20,7 +20,6 @@ public class MainController implements MainLayout.MainLayoutListener {
     private String API_KEY = BuildConfig.ApiKey;
     private MainLayout mainLayout;
     private MainActivity mainActivity;
-    private static final int REQ_CODE_SPEECH_INPUT = 100;
 
     public MainController(MainActivity mainActivity) {
         mainLayout = new MainLayout(mainActivity, this);
