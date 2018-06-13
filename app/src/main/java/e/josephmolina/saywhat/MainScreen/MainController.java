@@ -1,11 +1,16 @@
 package e.josephmolina.saywhat.MainScreen;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
+import android.speech.RecognizerIntent;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Locale;
+
 import e.josephmolina.saywhat.BuildConfig;
 import e.josephmolina.saywhat.Model.YandexClient;
 import e.josephmolina.saywhat.Model.YandexResponse;
@@ -25,7 +30,7 @@ public class MainController implements MainLayout.MainLayoutListener {
         this.mainActivity = mainActivity;
     }
 
-    private Single<YandexResponse> getTranslationTest(String text) {
+    private Single<YandexResponse> getTranslation(String text) {
         String API_KEY = BuildConfig.ApiKey;
         return YandexClient.getRetrofitInstance().getSpokenLanguage(API_KEY, text).flatMap(detectLanguageResponse -> {
             String languagePair = getLanguagePair(detectLanguageResponse.getLang());
@@ -39,7 +44,7 @@ public class MainController implements MainLayout.MainLayoutListener {
             displayToast(mainActivity.getResources().getString(R.string.empty_text_error_message));
         } else {
             final ProgressBar progressBar = mainActivity.findViewById(R.id.indeterminateBar);
-            getTranslationTest(text)
+            getTranslation(text)
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnSubscribe(() -> {
@@ -56,10 +61,27 @@ public class MainController implements MainLayout.MainLayoutListener {
 
                         @Override
                         public void onError(Throwable error) {
+                            progressBar.setVisibility(View.GONE);
                             displayToast(error.getMessage());
                         }
                     });
         }
+    }
+
+    public void startVoiceInput() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        try {
+            mainActivity.startActivityForResult(intent, 1);
+        } catch (ActivityNotFoundException a) {
+            displayToast(mainActivity.getString(R.string.speech_to_text_unavailable_message));
+        }
+    }
+
+    public void displaySpeechToTextResults(String text) {
+        TextView resultView = mainActivity.findViewById(R.id.textToTranslateEditText);
+        onTranslateClicked(text);
+        resultView.setText(text);
     }
 
     @Override
