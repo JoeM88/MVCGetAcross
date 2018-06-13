@@ -17,7 +17,6 @@ import rx.schedulers.Schedulers;
 
 public class MainController implements MainLayout.MainLayoutListener {
 
-    private String API_KEY = BuildConfig.ApiKey;
     private MainLayout mainLayout;
     private MainActivity mainActivity;
 
@@ -27,6 +26,7 @@ public class MainController implements MainLayout.MainLayoutListener {
     }
 
     private Single<YandexResponse> getTranslationTest(String text) {
+        String API_KEY = BuildConfig.ApiKey;
         return YandexClient.getRetrofitInstance().getSpokenLanguage(API_KEY, text).flatMap(detectLanguageResponse -> {
             String languagePair = getLanguagePair(detectLanguageResponse.getLang());
             return YandexClient.getRetrofitInstance().getTranslation(API_KEY, text, languagePair);
