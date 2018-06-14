@@ -14,4 +14,5 @@
     <string name="voice_translate_title">Voz Traducir</string>
     <string name="speech_to_text_unavailable_message">La funcionalidad de voz a texto no está disponible</string>
     <string name="speak_text_title">Opción Speak Voice de voz</string>
+    <string name="no_network_message">No hay conexión de red disponible</string>
 </resources>
