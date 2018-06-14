@@ -10,4 +10,8 @@
     <!-- Yandex code names -->
     <string name="english_code_name">en</string>
     <string name="spanish_code_name">es</string>
+    <string name="yandex_credits">Energizado por Yandex.Translate</string>
+    <string name="voice_translate_title">Voz Traducir</string>
+    <string name="speech_to_text_unavailable_message">La funcionalidad de voz a texto no está disponible</string>
+    <string name="speak_text_title">Opción Speak Voice de voz</string>
 </resources>
