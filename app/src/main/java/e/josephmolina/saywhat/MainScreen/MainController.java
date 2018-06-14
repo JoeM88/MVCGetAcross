@@ -96,6 +96,11 @@ public class MainController implements MainLayout.MainLayoutListener {
         }
     }
 
+    @Override
+    public void onSpeakClicked(String text) {
+        textToSpeechManager.speak(text, TextToSpeech.QUEUE_FLUSH,null,null);
+    }
+
     private void displayNetworkError(Throwable error) {
         TextView resultView = mainActivity.findViewById(R.id.translatedTextResults);
         resultView.setText(error.getMessage());

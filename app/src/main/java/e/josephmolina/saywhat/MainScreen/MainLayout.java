@@ -2,6 +2,7 @@ package e.josephmolina.saywhat.MainScreen;
 
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -17,8 +18,12 @@ public class MainLayout {
     Button translateButton;
     @BindView(R.id.textToTranslateEditText)
     EditText spokenText;
+    @BindView(R.id.translatedTextResults)
+    TextView translatedText;
     @BindView(R.id.yandexCredit)
     TextView yandexCredit;
+    @BindView(R.id.speakButton)
+    ImageView speakButton;
 
     public MainLayout(final MainActivity mainActivity, MainLayoutListener mainLayoutListener) {
         mainActivity.setContentView(R.layout.activity_main);
@@ -36,10 +41,17 @@ public class MainLayout {
         mainLayoutListener.onYandexCreditClicked();
     }
 
+    @OnClick(R.id.speakButton)
+    public void onSpeakButton() {
+        mainLayoutListener.onSpeakClicked(translatedText.getText().toString());
+    }
+
 
     interface MainLayoutListener {
         void onTranslateClicked(String text);
 
         void onYandexCreditClicked();
+
+        void onSpeakClicked(String text);
     }
 }
