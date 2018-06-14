@@ -1,7 +1,10 @@
 package e.josephmolina.saywhat.MainScreen;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
@@ -46,28 +49,32 @@ public class MainController implements MainLayout.MainLayoutListener {
         if (text.isEmpty()) {
             displayToast(mainActivity.getResources().getString(R.string.empty_text_error_message));
         } else {
-            final ProgressBar progressBar = mainActivity.findViewById(R.id.indeterminateBar);
-            getTranslation(text)
-                    .subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doOnSubscribe(() -> {
-                        progressBar.setVisibility(View.VISIBLE);
-                    })
-                    .subscribe(new SingleSubscriber<YandexResponse>() {
-                        @Override
-                        public void onSuccess(YandexResponse value) {
-                            progressBar.setVisibility(View.GONE);
+            if (isNetworkAvailable()) {
+                final ProgressBar progressBar = mainActivity.findViewById(R.id.indeterminateBar);
+                getTranslation(text)
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(() -> {
+                            progressBar.setVisibility(View.VISIBLE);
+                        })
+                        .subscribe(new SingleSubscriber<YandexResponse>() {
+                            @Override
+                            public void onSuccess(YandexResponse value) {
+                                progressBar.setVisibility(View.GONE);
 
-                            TextView resultView = mainActivity.findViewById(R.id.translatedTextResults);
-                            resultView.setText(value.getText().get(0));
-                        }
+                                TextView resultView = mainActivity.findViewById(R.id.translatedTextResults);
+                                resultView.setText(value.getText().get(0));
+                            }
 
-                        @Override
-                        public void onError(Throwable error) {
-                            progressBar.setVisibility(View.GONE);
-                            displayToast(error.getMessage());
-                        }
-                    });
+                            @Override
+                            public void onError(Throwable error) {
+                                progressBar.setVisibility(View.GONE);
+                                displayToast(error.getMessage());
+                            }
+                        });
+            } else {
+                displayToast(mainActivity.getString(R.string.no_network_message));
+            }
         }
     }
 
@@ -89,16 +96,20 @@ public class MainController implements MainLayout.MainLayoutListener {
 
     @Override
     public void onYandexCreditClicked() {
-        Uri webpage = Uri.parse("http://translate.yandex.com/");
-        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-        if (intent.resolveActivity(mainActivity.getPackageManager()) != null) {
-            mainActivity.startActivity(intent);
+        if (isNetworkAvailable()) {
+            Uri webpage = Uri.parse("http://translate.yandex.com/");
+            Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+            if (intent.resolveActivity(mainActivity.getPackageManager()) != null) {
+                mainActivity.startActivity(intent);
+            }
+        } else {
+            displayToast(mainActivity.getString(R.string.no_network_message));
         }
     }
 
     @Override
     public void onSpeakClicked(String text) {
-        textToSpeechManager.speak(text, TextToSpeech.QUEUE_FLUSH,null,null);
+        textToSpeechManager.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
     }
 
     private void displayNetworkError(Throwable error) {
@@ -122,5 +133,14 @@ public class MainController implements MainLayout.MainLayoutListener {
                 break;
         }
         return languagePair.toString();
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager cm =
+                (ConnectivityManager) mainActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
     }
 }

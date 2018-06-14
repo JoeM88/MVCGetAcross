@@ -13,5 +13,6 @@
     <string name="voice_translate_title">Voice Translate</string>
     <string name="speech_to_text_unavailable_message">Speech to text functionality not available</string>
     <string name="speak_text_title">Speak Text Voice Option</string>
+    <string name="no_network_message">No active network connection</string>
 
 </resources>
