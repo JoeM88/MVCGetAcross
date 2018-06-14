@@ -4,17 +4,17 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Locale;
-
 import e.josephmolina.saywhat.BuildConfig;
 import e.josephmolina.saywhat.Model.YandexClient;
 import e.josephmolina.saywhat.Model.YandexResponse;
 import e.josephmolina.saywhat.R;
+import e.josephmolina.saywhat.TextToSpeechManager.TextToSpeechManager;
 import rx.Single;
 import rx.SingleSubscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -24,10 +24,13 @@ public class MainController implements MainLayout.MainLayoutListener {
 
     private MainLayout mainLayout;
     private MainActivity mainActivity;
+    private TextToSpeech textToSpeechManager;
 
     public MainController(MainActivity mainActivity) {
         mainLayout = new MainLayout(mainActivity, this);
         this.mainActivity = mainActivity;
+
+        textToSpeechManager = TextToSpeechManager.getTextToSpeechInstance(mainActivity);
     }
 
     private Single<YandexResponse> getTranslation(String text) {
@@ -80,8 +83,8 @@ public class MainController implements MainLayout.MainLayoutListener {
 
     public void displaySpeechToTextResults(String text) {
         TextView resultView = mainActivity.findViewById(R.id.textToTranslateEditText);
-        onTranslateClicked(text);
         resultView.setText(text);
+        onTranslateClicked(text);
     }
 
     @Override
