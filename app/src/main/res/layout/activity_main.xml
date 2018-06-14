@@ -43,7 +43,7 @@
         android:layout_marginStart="8dp"
         app:layout_constraintBottom_toTopOf="@+id/translateButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
+        app:layout_constraintStart_toEndOf="@+id/speakButton"
         app:layout_constraintTop_toBottomOf="@id/guideline">
 
         <ScrollView
