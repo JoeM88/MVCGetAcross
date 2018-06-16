@@ -8,12 +8,15 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
+import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import e.josephmolina.saywhat.BuildConfig;
+import e.josephmolina.saywhat.Dialog.SayWhatDialog;
 import e.josephmolina.saywhat.Model.YandexClient;
 import e.josephmolina.saywhat.Model.YandexResponse;
 import e.josephmolina.saywhat.R;
@@ -23,7 +26,7 @@ import rx.SingleSubscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class MainController implements MainLayout.MainLayoutListener {
+public class MainController implements MainLayout.MainLayoutListener{
 
     private MainLayout mainLayout;
     private MainActivity mainActivity;
@@ -142,5 +145,10 @@ public class MainController implements MainLayout.MainLayoutListener {
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
+    }
+
+    public void displaySaveDialog() {
+        DialogFragment newFragment = new SayWhatDialog();
+        newFragment.show(mainActivity.getSupportFragmentManager(), "saving");
     }
 }

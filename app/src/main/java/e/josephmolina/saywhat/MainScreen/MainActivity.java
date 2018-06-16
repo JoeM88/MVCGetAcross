@@ -2,6 +2,7 @@ package e.josephmolina.saywhat.MainScreen;
 
 import android.content.Intent;
 import android.speech.RecognizerIntent;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,11 +11,12 @@ import android.view.MenuItem;
 
 import com.crashlytics.android.Crashlytics;
 
+import e.josephmolina.saywhat.Dialog.SayWhatDialog;
 import e.josephmolina.saywhat.R;
 import io.fabric.sdk.android.Fabric;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SayWhatDialog.DialogListener{
 
     private MainController controller;
 
@@ -38,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.voiceTranslateOption:
                 controller.startVoiceInput();
                 return true;
+            case R.id.saveTranslationOption:
+               controller.displaySaveDialog();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -56,5 +60,15 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
         }
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialogFragment) {
+
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialogFragment) {
+
     }
 }
