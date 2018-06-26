@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 public class SavedTranslation {
 
     @NonNull
+    @ColumnInfo(name = "_id")
     @PrimaryKey(autoGenerate = true)
     private int id;
 

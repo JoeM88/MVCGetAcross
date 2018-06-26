@@ -4,9 +4,12 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
+
 import java.util.List;
 
 import e.josephmolina.saywhat.Model.SavedTranslation;
+import io.reactivex.Observable;
+
 
 /***
  * Contains the methods used for accessing the database.
@@ -20,5 +23,4 @@ public interface SavedTranslationDAO {
 
     @Insert
     void insertTranslation(SavedTranslation savedtranslation);
-
 }

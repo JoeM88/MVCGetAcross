@@ -19,9 +19,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="0e0de57ede62221a0687b1f005c720955492c17e" />
+
+        <activity android:name=".SavedChatsScreen.SavedTranslationsScreen"></activity>
     </application>
 
 </manifest>

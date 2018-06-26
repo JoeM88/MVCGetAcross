@@ -3,6 +3,7 @@ package e.josephmolina.saywhat.MainScreen;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -24,6 +25,8 @@ public class MainLayout {
     TextView yandexCredit;
     @BindView(R.id.speakButton)
     ImageView speakButton;
+    @BindView(R.id.indeterminateBar)
+    ProgressBar indetermindateBar;
 
     public MainLayout(final MainActivity mainActivity, MainLayoutListener mainLayoutListener) {
         mainActivity.setContentView(R.layout.activity_main);
@@ -45,7 +48,6 @@ public class MainLayout {
     public void onSpeakButton() {
         mainLayoutListener.onSpeakClicked(translatedText.getText().toString());
     }
-
 
     interface MainLayoutListener {
         void onTranslateClicked(String text);

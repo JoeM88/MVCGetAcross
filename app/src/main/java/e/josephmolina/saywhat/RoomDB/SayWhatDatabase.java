@@ -29,6 +29,7 @@ public abstract class SayWhatDatabase extends RoomDatabase {
         if (sayWhatDatabaseInstance == null) {
             sayWhatDatabaseInstance = Room.databaseBuilder(context.getApplicationContext(),
                     SayWhatDatabase.class, "savedTranslation-database")
+                    .allowMainThreadQueries()
                     .build();
         }
         return sayWhatDatabaseInstance;

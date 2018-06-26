@@ -5,9 +5,11 @@ import android.speech.RecognizerIntent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 import com.crashlytics.android.Crashlytics;
 
@@ -64,11 +66,15 @@ public class MainActivity extends AppCompatActivity implements SayWhatDialog.Dia
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialogFragment) {
-
+        EditText editText = dialogFragment.getDialog().findViewById(R.id.translationTitle);
+        String title = editText.getText().toString();
+        controller.saveTranslation(title);
     }
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialogFragment) {
-
+        // close dialog
+        Log.d("Negative", "Was pressed");
+        dialogFragment.dismiss();
     }
 }

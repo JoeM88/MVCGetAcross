@@ -11,22 +11,26 @@ import android.speech.tts.TextToSpeech;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import e.josephmolina.saywhat.BuildConfig;
 import e.josephmolina.saywhat.Dialog.SayWhatDialog;
+import e.josephmolina.saywhat.Model.SavedTranslation;
 import e.josephmolina.saywhat.Model.YandexClient;
 import e.josephmolina.saywhat.Model.YandexResponse;
 import e.josephmolina.saywhat.R;
+import e.josephmolina.saywhat.RoomDB.SayWhatDatabase;
 import e.josephmolina.saywhat.TextToSpeechManager.TextToSpeechManager;
-import rx.Single;
-import rx.SingleSubscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Completable;
+import io.reactivex.CompletableObserver;
+import io.reactivex.Single;
+import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
-public class MainController implements MainLayout.MainLayoutListener{
+
+public class MainController implements MainLayout.MainLayoutListener {
 
     private MainLayout mainLayout;
     private MainActivity mainActivity;
@@ -41,10 +45,12 @@ public class MainController implements MainLayout.MainLayoutListener{
 
     private Single<YandexResponse> getTranslation(String text) {
         String API_KEY = BuildConfig.ApiKey;
-        return YandexClient.getRetrofitInstance().getSpokenLanguage(API_KEY, text).flatMap(detectLanguageResponse -> {
-            String languagePair = getLanguagePair(detectLanguageResponse.getLang());
-            return YandexClient.getRetrofitInstance().getTranslation(API_KEY, text, languagePair);
-        });
+        return YandexClient.getRetrofitInstance().getSpokenLanguage(API_KEY, text)
+                .flatMap(detectLanguageResponse -> {
+                    String languagePair = getLanguagePair(detectLanguageResponse.getLang());
+                    return YandexClient.getRetrofitInstance().getTranslation(API_KEY, text, languagePair);
+
+                });
     }
 
     @Override
@@ -53,25 +59,24 @@ public class MainController implements MainLayout.MainLayoutListener{
             displayToast(mainActivity.getResources().getString(R.string.empty_text_error_message));
         } else {
             if (isNetworkAvailable()) {
-                final ProgressBar progressBar = mainActivity.findViewById(R.id.indeterminateBar);
                 getTranslation(text)
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSubscribe(() -> {
-                            progressBar.setVisibility(View.VISIBLE);
-                        })
-                        .subscribe(new SingleSubscriber<YandexResponse>() {
+                        .subscribe(new SingleObserver<YandexResponse>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+                                mainLayout.indetermindateBar.setVisibility(View.VISIBLE);
+                            }
+
                             @Override
                             public void onSuccess(YandexResponse value) {
-                                progressBar.setVisibility(View.GONE);
-
-                                TextView resultView = mainActivity.findViewById(R.id.translatedTextResults);
-                                resultView.setText(value.getText().get(0));
+                                mainLayout.indetermindateBar.setVisibility(View.GONE);
+                                mainLayout.translatedText.setText(value.getText().get(0));
                             }
 
                             @Override
                             public void onError(Throwable error) {
-                                progressBar.setVisibility(View.GONE);
+                                mainLayout.indetermindateBar.setVisibility(View.GONE);
                                 displayToast(error.getMessage());
                             }
                         });
@@ -92,8 +97,7 @@ public class MainController implements MainLayout.MainLayoutListener{
     }
 
     public void displaySpeechToTextResults(String text) {
-        TextView resultView = mainActivity.findViewById(R.id.textToTranslateEditText);
-        resultView.setText(text);
+        mainLayout.spokenText.setText(text);
         onTranslateClicked(text);
     }
 
@@ -113,11 +117,6 @@ public class MainController implements MainLayout.MainLayoutListener{
     @Override
     public void onSpeakClicked(String text) {
         textToSpeechManager.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
-    }
-
-    private void displayNetworkError(Throwable error) {
-        TextView resultView = mainActivity.findViewById(R.id.translatedTextResults);
-        resultView.setText(error.getMessage());
     }
 
     private void displayToast(String message) {
@@ -145,6 +144,42 @@ public class MainController implements MainLayout.MainLayoutListener{
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
+    }
+
+
+    public void saveTranslation(String title) {
+        if (title.isEmpty() || mainLayout.translatedText.getText().length() == 0
+                || mainLayout.spokenText.getText().length() == 0) {
+            displayToast(mainActivity.getResources().getString(R.string.empty_text_error_message));
+        } else {
+            String spokenText = mainLayout.spokenText.getText().toString();
+            String translatedText = mainLayout.translatedText.getText().toString();
+            SavedTranslation savedTranslation = new SavedTranslation(title, spokenText, translatedText);
+
+            displayToast(mainActivity.getString(R.string.saving_toast_message));
+            Completable.fromAction(() -> SayWhatDatabase.getSayWhatDatabaseInstance(mainActivity)
+                    .savedTranslationDAO()
+                    .insertTranslation(savedTranslation))
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new CompletableObserver() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+                            Log.d("onSubscribe", "subscribing...");
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            displayToast("Translation saved");
+                            Log.d("onComplete", "Saved!...");
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.d("onError", "error saving");
+                        }
+                    });
+        }
     }
 
     public void displaySaveDialog() {
