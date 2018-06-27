@@ -23,7 +23,6 @@
         android:inputType="text"
         android:maxLines="10"
         android:scrollbars="vertical"
-        android:windowSoftInputMode="stateHidden"
         app:layout_constraintBottom_toTopOf="@+id/frameLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

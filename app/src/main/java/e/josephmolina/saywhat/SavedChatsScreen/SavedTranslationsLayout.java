@@ -2,6 +2,7 @@ package e.josephmolina.saywhat.SavedChatsScreen;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -15,6 +16,8 @@ public class SavedTranslationsLayout {
     RecyclerView recyclerView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.empty_recyclerView_TextView)
+    TextView emptyRecyclerViewTextView;
 
     public SavedTranslationsLayout(final SavedTranslationsScreen activity, SavedTranslationsScreenListener listener) {
         activity.setContentView(R.layout.activity_saved_translations_screen);
