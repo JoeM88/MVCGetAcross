@@ -6,6 +6,10 @@
     android:layout_height="match_parent"
     tools:layout_editor_absoluteY="81dp">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
     <EditText
         android:id="@+id/textToTranslateEditText"
         android:layout_width="0dp"
@@ -23,7 +27,7 @@
         app:layout_constraintBottom_toTopOf="@+id/frameLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintVertical_bias="1.0" />
 
     <android.support.constraint.Guideline

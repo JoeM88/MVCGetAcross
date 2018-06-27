@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round2"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainScreen.MainActivity">
+        <activity android:name=".MainScreen.MainActivity"
+            android:parentActivityName=".MainScreen.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,7 +25,10 @@
             android:name="io.fabric.ApiKey"
             android:value="0e0de57ede62221a0687b1f005c720955492c17e" />
 
-        <activity android:name=".SavedChatsScreen.SavedTranslationsScreen"></activity>
+        <activity
+            android:name=".SavedChatsScreen.SavedTranslationsScreen"
+            android:launchMode="singleTop"
+            android:parentActivityName=".MainScreen.MainActivity" />
     </application>
 
 </manifest>

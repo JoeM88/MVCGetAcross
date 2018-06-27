@@ -16,6 +16,7 @@ import android.widget.Toast;
 import e.josephmolina.saywhat.BuildConfig;
 import e.josephmolina.saywhat.Dialog.SayWhatDialog;
 import e.josephmolina.saywhat.Model.SavedTranslation;
+import e.josephmolina.saywhat.SavedChatsScreen.SavedTranslationsScreen;
 import e.josephmolina.saywhat.Model.YandexClient;
 import e.josephmolina.saywhat.Model.YandexResponse;
 import e.josephmolina.saywhat.R;
@@ -117,6 +118,13 @@ public class MainController implements MainLayout.MainLayoutListener {
     @Override
     public void onSpeakClicked(String text) {
         textToSpeechManager.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
+    }
+
+    @Override
+    public void onViewTranslationsClicked() {
+     Intent goToSavedTranslationScreen = new Intent(mainActivity, SavedTranslationsScreen.class);
+     mainActivity.startActivity(goToSavedTranslationScreen);
+
     }
 
     private void displayToast(String message) {
