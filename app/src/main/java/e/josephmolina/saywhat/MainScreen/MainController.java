@@ -11,6 +11,7 @@ import android.speech.tts.TextToSpeech;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import e.josephmolina.saywhat.BuildConfig;
@@ -127,6 +128,12 @@ public class MainController implements MainLayout.MainLayoutListener {
 
     }
 
+    @Override
+    public void onMainScreenClicked() {
+        InputMethodManager imm = (InputMethodManager) mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mainActivity.getCurrentFocus().getWindowToken(), 0);
+    }
+
     private void displayToast(String message) {
         Toast.makeText(mainActivity, message, Toast.LENGTH_SHORT).show();
     }
@@ -194,4 +201,6 @@ public class MainController implements MainLayout.MainLayoutListener {
         DialogFragment newFragment = new SayWhatDialog();
         newFragment.show(mainActivity.getSupportFragmentManager(), "saving");
     }
+
+
 }

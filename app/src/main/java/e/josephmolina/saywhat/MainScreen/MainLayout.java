@@ -62,6 +62,11 @@ public class MainLayout {
         mainLayoutListener.onViewTranslationsClicked();
     }
 
+    @OnClick(R.id.mainScreenLayout)
+    public void onMainScreen() {
+        mainLayoutListener.onMainScreenClicked();
+    }
+
     interface MainLayoutListener {
         void onTranslateClicked(String text);
 
@@ -70,5 +75,7 @@ public class MainLayout {
         void onSpeakClicked(String text);
 
         void onViewTranslationsClicked();
+
+        void onMainScreenClicked();
     }
 }
