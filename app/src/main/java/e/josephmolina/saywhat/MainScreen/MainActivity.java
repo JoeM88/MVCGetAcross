@@ -18,7 +18,7 @@ import e.josephmolina.saywhat.R;
 import io.fabric.sdk.android.Fabric;
 
 
-public class MainActivity extends AppCompatActivity implements SayWhatDialog.DialogListener{
+public class MainActivity extends AppCompatActivity implements SayWhatDialog.DialogListener {
 
     private MainController controller;
 
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements SayWhatDialog.Dia
                 controller.startVoiceInput();
                 return true;
             case R.id.saveTranslationOption:
-               controller.displaySaveDialog();
+                controller.displaySaveDialog();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -73,8 +73,7 @@ public class MainActivity extends AppCompatActivity implements SayWhatDialog.Dia
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialogFragment) {
-        // close dialog
-        Log.d("Negative", "Was pressed");
         dialogFragment.dismiss();
     }
+
 }

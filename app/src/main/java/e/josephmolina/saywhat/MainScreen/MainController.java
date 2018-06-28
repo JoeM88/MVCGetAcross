@@ -180,18 +180,16 @@ public class MainController implements MainLayout.MainLayoutListener {
                     .subscribe(new CompletableObserver() {
                         @Override
                         public void onSubscribe(Disposable d) {
-                            Log.d("onSubscribe", "subscribing...");
                         }
 
                         @Override
                         public void onComplete() {
-                            displayToast("Translation saved");
-                            Log.d("onComplete", "Saved!...");
+                            displayToast(mainActivity.getString(R.string.translation_saved_successfully_message));
                         }
 
                         @Override
                         public void onError(Throwable e) {
-                            Log.d("onError", "error saving");
+                            displayToast(mainActivity.getString(R.string.translation_unsuccessfully_saved_message));
                         }
                     });
         }
@@ -201,6 +199,4 @@ public class MainController implements MainLayout.MainLayoutListener {
         DialogFragment newFragment = new SayWhatDialog();
         newFragment.show(mainActivity.getSupportFragmentManager(), "saving");
     }
-
-
 }

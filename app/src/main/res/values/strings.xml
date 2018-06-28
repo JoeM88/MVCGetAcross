@@ -14,8 +14,12 @@
     <string name="speech_to_text_unavailable_message">Speech to text functionality not available</string>
     <string name="speak_text_title">Speak Text Voice Option</string>
     <string name="no_network_message">No active network connection</string>
+
     <string name="add_icon_title">Save Translation</string>
     <string name="dialog_hint">Asking for the nearest</string>
-    <string name="saving_toast_message">Saving...</string>
+    <string name="saving_toast_message">Saving…</string>
+    <string name="translation_saved_successfully_message">Translation saved</string>
+    <string name="translation_unsuccessfully_saved_message">Unable to save translation</string>
+    <string name="empty_recyclerview_message">You have not saved anything</string>
 
 </resources>

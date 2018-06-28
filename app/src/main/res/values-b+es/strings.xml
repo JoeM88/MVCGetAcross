@@ -15,4 +15,12 @@
     <string name="speech_to_text_unavailable_message">La funcionalidad de voz a texto no está disponible</string>
     <string name="speak_text_title">Opción Speak Voice de voz</string>
     <string name="no_network_message">No hay conexión de red disponible</string>
+
+
+    <string name="add_icon_title">Guardar Traducción</string>
+    <string name="dialog_hint">Asking for the nearest</string>
+    <string name="saving_toast_message">Salvando…</string>
+    <string name="translation_saved_successfully_message">Traducción guardada</string>
+    <string name="translation_unsuccessfully_saved_message">No se puede guardar la traducción</string>
+    <string name="empty_recyclerview_message">No has guardado nada</string>
 </resources>
