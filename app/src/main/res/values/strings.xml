@@ -16,7 +16,7 @@
     <string name="no_network_message">No active network connection</string>
 
     <string name="add_icon_title">Save Translation</string>
-    <string name="dialog_hint">Asking for the nearest</string>
+    <string name="dialog_hint">How to say Hi</string>
     <string name="saving_toast_message">Saving…</string>
     <string name="translation_saved_successfully_message">Translation saved</string>
     <string name="translation_unsuccessfully_saved_message">Unable to save translation</string>
