@@ -1,7 +1,6 @@
 package e.josephmolina.saywhat.Adapter;
 
 import android.content.Context;
-import android.speech.tts.TextToSpeech;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +17,6 @@ import butterknife.OnClick;
 import e.josephmolina.saywhat.Model.SavedTranslation;
 import e.josephmolina.saywhat.R;
 import e.josephmolina.saywhat.SavedChatsScreen.SavedTranslationsController;
-import e.josephmolina.saywhat.TextToSpeechManager.TextToSpeechManager;
 
 public class SayWhatAdapter extends RecyclerView.Adapter<SayWhatAdapter.ViewHolder> {
     private List<SavedTranslation> listOfTranslations;
@@ -66,16 +64,32 @@ public class SayWhatAdapter extends RecyclerView.Adapter<SayWhatAdapter.ViewHold
         @BindView(R.id.savedSpeakButton)
         ImageView speakButton;
 
-        private TextToSpeech textToSpeechManager;
+        @BindView(R.id.remove_savedTranslation)
+        ImageView removeButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
 
         @OnClick(R.id.savedSpeakButton)
         public void onSavedSpeakButton() {
             controller.onSpeakClicked(savedTranslatedText.getText().toString());
+        }
+
+        @OnClick(R.id.remove_savedTranslation)
+        public void setRemoveButton() {
+            removeItem(this.getAdapterPosition());
+        }
+
+        private void removeItem(int position) {
+            controller.removeSavedTranslation(listOfTranslations.get(position));
+            listOfTranslations.remove(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, listOfTranslations.size());
+            if (listOfTranslations.size() == 0) {
+                controller.displayEmptyRecyclerViewText();
+            }
         }
     }
 }

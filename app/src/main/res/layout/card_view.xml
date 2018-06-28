@@ -63,6 +63,12 @@
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/remove_savedTranslation"
+            android:src="@mipmap/ic_remove_translation"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp" />
+
         <View
             android:id="@+id/view"
             android:layout_width="1dp"

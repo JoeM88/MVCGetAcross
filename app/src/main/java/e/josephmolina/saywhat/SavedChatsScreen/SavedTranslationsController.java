@@ -29,11 +29,9 @@ public class SavedTranslationsController implements SavedTranslationsLayout.Save
     private void setupAdapter() {
         List<SavedTranslation> data = SayWhatDatabase.getSayWhatDatabaseInstance(activity).savedTranslationDAO().getSavedTranslations();
         if (data.size() == 0) {
-            savedTranslationsLayout.recyclerView.setVisibility(View.GONE);
-            savedTranslationsLayout.emptyRecyclerViewTextView.setVisibility(View.VISIBLE);
+            displayEmptyRecyclerViewText();
         } else {
-            savedTranslationsLayout.recyclerView.setVisibility(View.VISIBLE);
-            savedTranslationsLayout.emptyRecyclerViewTextView.setVisibility(View.GONE);
+            displayRecyclerView();
             SayWhatAdapter adapter = new SayWhatAdapter(data, this);
             savedTranslationsLayout.recyclerView.setAdapter(adapter);
             savedTranslationsLayout.recyclerView.setLayoutManager(new LinearLayoutManager(activity));
@@ -42,5 +40,19 @@ public class SavedTranslationsController implements SavedTranslationsLayout.Save
 
     public void onSpeakClicked(String text) {
         textToSpeechManager.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
+    }
+
+    public void removeSavedTranslation(SavedTranslation savedTranslation) {
+        SayWhatDatabase.getSayWhatDatabaseInstance(activity).savedTranslationDAO().removeTranslation(savedTranslation);
+    }
+
+    public void displayRecyclerView() {
+        savedTranslationsLayout.recyclerView.setVisibility(View.VISIBLE);
+        savedTranslationsLayout.emptyRecyclerViewTextView.setVisibility(View.GONE);
+    }
+
+    public void displayEmptyRecyclerViewText() {
+        savedTranslationsLayout.recyclerView.setVisibility(View.GONE);
+        savedTranslationsLayout.emptyRecyclerViewTextView.setVisibility(View.VISIBLE);
     }
 }
