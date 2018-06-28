@@ -24,4 +24,10 @@ public class SavedTranslationsScreen extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        controller.cleanUp();
+    }
 }

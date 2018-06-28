@@ -46,7 +46,7 @@ public class SavedTranslationsController implements SavedTranslationsLayout.Save
         SayWhatDatabase.getSayWhatDatabaseInstance(activity).savedTranslationDAO().removeTranslation(savedTranslation);
     }
 
-    public void displayRecyclerView() {
+    private void displayRecyclerView() {
         savedTranslationsLayout.recyclerView.setVisibility(View.VISIBLE);
         savedTranslationsLayout.emptyRecyclerViewTextView.setVisibility(View.GONE);
     }
@@ -54,5 +54,9 @@ public class SavedTranslationsController implements SavedTranslationsLayout.Save
     public void displayEmptyRecyclerViewText() {
         savedTranslationsLayout.recyclerView.setVisibility(View.GONE);
         savedTranslationsLayout.emptyRecyclerViewTextView.setVisibility(View.VISIBLE);
+    }
+
+    public void cleanUp() {
+        textToSpeechManager.shutdown();
     }
 }

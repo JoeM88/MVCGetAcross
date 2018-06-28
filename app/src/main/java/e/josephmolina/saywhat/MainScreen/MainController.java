@@ -199,4 +199,8 @@ public class MainController implements MainLayout.MainLayoutListener {
         DialogFragment newFragment = new SayWhatDialog();
         newFragment.show(mainActivity.getSupportFragmentManager(), "saving");
     }
+
+    public void cleanUp() {
+        textToSpeechManager.shutdown();
+    }
 }

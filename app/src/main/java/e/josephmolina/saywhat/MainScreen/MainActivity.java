@@ -76,4 +76,9 @@ public class MainActivity extends AppCompatActivity implements SayWhatDialog.Dia
         dialogFragment.dismiss();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        controller.cleanUp();
+    }
 }
