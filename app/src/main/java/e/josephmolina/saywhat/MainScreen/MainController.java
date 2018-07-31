@@ -3,8 +3,6 @@ package e.josephmolina.saywhat.MainScreen;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
@@ -20,6 +18,7 @@ import e.josephmolina.saywhat.R;
 import e.josephmolina.saywhat.RoomDB.SayWhatDatabase;
 import e.josephmolina.saywhat.SavedChatsScreen.SavedTranslationsScreen;
 import e.josephmolina.saywhat.TextToSpeechManager.TextToSpeechManager;
+import e.josephmolina.saywhat.Utils.Utils;
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 import io.reactivex.Single;
@@ -45,7 +44,7 @@ public class MainController implements MainLayout.MainLayoutListener {
         String API_KEY = BuildConfig.ApiKey;
         return YandexClient.getRetrofitInstance().getSpokenLanguage(API_KEY, text)
                 .flatMap(detectLanguageResponse -> {
-                    String languagePair = getLanguagePair(detectLanguageResponse.getLang());
+                    String languagePair = Utils.getLanguagePair(detectLanguageResponse.getLang());
                     return YandexClient.getRetrofitInstance().getTranslation(API_KEY, text, languagePair);
 
                 });
@@ -73,14 +72,14 @@ public class MainController implements MainLayout.MainLayoutListener {
         }
     }
 
-    public void displaySpeechToTextResults(String text) {
-        mainLayout.spokenText.setText(text);
-        onTranslateClicked(text);
+    public void displaySpeechToTextResults(String results) {
+        mainLayout.spokenText.setText(results);
+        onTranslateClicked(results);
     }
 
     @Override
     public void onYandexCreditClicked() {
-        if (isNetworkAvailable()) {
+        if (Utils.isNetworkAvailable(mainActivity)) {
             Uri webpage = Uri.parse("http://translate.yandex.com/");
             Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
             if (intent.resolveActivity(mainActivity.getPackageManager()) != null) {
@@ -108,30 +107,6 @@ public class MainController implements MainLayout.MainLayoutListener {
         InputMethodManager imm = (InputMethodManager) mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(mainActivity.getCurrentFocus().getWindowToken(), 0);
     }
-
-    private String getLanguagePair(String spokenLanguage) {
-        StringBuilder languagePair = new StringBuilder();
-        switch (spokenLanguage) {
-            case "en":
-                languagePair.append(spokenLanguage).append("-es");
-                break;
-
-            case "es":
-                languagePair.append(spokenLanguage).append("-en");
-                break;
-        }
-        return languagePair.toString();
-    }
-
-    private boolean isNetworkAvailable() {
-        ConnectivityManager cm =
-                (ConnectivityManager) mainActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
-    }
-
 
     public void saveTranslation(String title) {
         if (title.isEmpty() || mainLayout.translatedText.getText().length() == 0

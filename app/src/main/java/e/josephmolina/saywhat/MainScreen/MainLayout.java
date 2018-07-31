@@ -88,6 +88,7 @@ public class MainLayout implements SingleObserver<YandexResponse> {
     @Override
     public void onError(Throwable error) {
         indetermindateBar.setVisibility(View.GONE);
+        // TODO: Display a better error message/ Fix toast not appearing.
         displayToast(error.getMessage());
     }
 
