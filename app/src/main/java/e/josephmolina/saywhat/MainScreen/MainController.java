@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
-import android.support.v4.app.DialogFragment;
 import android.view.inputmethod.InputMethodManager;
 
 import e.josephmolina.saywhat.BuildConfig;
@@ -36,7 +35,6 @@ public class MainController implements MainLayout.MainLayoutListener {
     public MainController(MainActivity mainActivity) {
         mainLayout = new MainLayout(mainActivity, this);
         this.mainActivity = mainActivity;
-
         textToSpeechManager = TextToSpeechManager.getTextToSpeechInstance(mainActivity);
     }
 
@@ -46,7 +44,6 @@ public class MainController implements MainLayout.MainLayoutListener {
                 .flatMap(detectLanguageResponse -> {
                     String languagePair = Utils.getLanguagePair(detectLanguageResponse.getLang());
                     return YandexClient.getRetrofitInstance().getTranslation(API_KEY, text, languagePair);
-
                 });
     }
 
@@ -55,6 +52,7 @@ public class MainController implements MainLayout.MainLayoutListener {
         if (text.isEmpty()) {
             mainLayout.displayToast(mainActivity.getString(R.string.empty_text_error_message));
         } else {
+
             getTranslation(text)
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -63,14 +61,17 @@ public class MainController implements MainLayout.MainLayoutListener {
     }
 
     public void startVoiceInput() {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        try {
-            mainActivity.startActivityForResult(intent, 1);
-        } catch (ActivityNotFoundException a) {
-            mainLayout.displayToast(mainActivity.getString(R.string.speech_to_text_unavailable_message));
+        if (textToSpeechManager != null) {
+            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+            try {
+                mainActivity.startActivityForResult(intent, 1);
+            } catch (ActivityNotFoundException a) {
+                mainLayout.displayToast(mainActivity.getString(R.string.speech_to_text_unavailable_message));
+            }
         }
     }
+
 
     public void displaySpeechToTextResults(String results) {
         mainLayout.spokenText.setText(results);
@@ -99,7 +100,6 @@ public class MainController implements MainLayout.MainLayoutListener {
     public void onViewTranslationsClicked() {
         Intent goToSavedTranslationScreen = new Intent(mainActivity, SavedTranslationsScreen.class);
         mainActivity.startActivity(goToSavedTranslationScreen);
-
     }
 
     @Override
@@ -145,8 +145,7 @@ public class MainController implements MainLayout.MainLayoutListener {
     }
 
     public void displaySaveDialog() {
-        DialogFragment newFragment = new SayWhatDialog();
-        newFragment.show(mainActivity.getSupportFragmentManager(), "saving");
+        new SayWhatDialog().show(mainActivity.getSupportFragmentManager(), "saving");
     }
 
     public void cleanUp() {
