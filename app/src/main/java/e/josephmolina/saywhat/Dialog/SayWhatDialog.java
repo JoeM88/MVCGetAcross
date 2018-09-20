@@ -3,10 +3,11 @@ package e.josephmolina.saywhat.Dialog;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.support.v4.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
+
 import e.josephmolina.saywhat.R;
 
 public class SayWhatDialog extends DialogFragment {
