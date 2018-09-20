@@ -89,4 +89,8 @@ dependencies {
     implementation "com.google.dagger:dagger:2.13"
     annotationProcessor "com.google.dagger:dagger-compiler:2.11"
 
+    // AWS
+    implementation 'com.amazonaws:aws-android-sdk-translate:2.6.20'
+    implementation 'com.amazonaws:aws-android-sdk-polly:2.6.28'
+
 }
