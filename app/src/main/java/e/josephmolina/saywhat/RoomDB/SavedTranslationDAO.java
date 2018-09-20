@@ -5,11 +5,9 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
-
 import java.util.List;
 
 import e.josephmolina.saywhat.Model.SavedTranslation;
-import io.reactivex.Observable;
 
 
 /***
