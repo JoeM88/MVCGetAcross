@@ -1,4 +1,4 @@
-package e.josephmolina.saywhat.Model;
+package e.josephmolina.saywhat.AWSModel;
 
 
 import android.media.AudioManager;

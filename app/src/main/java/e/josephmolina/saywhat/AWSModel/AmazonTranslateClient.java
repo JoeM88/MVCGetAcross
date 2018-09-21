@@ -1,4 +1,4 @@
-package e.josephmolina.saywhat.Model;
+package e.josephmolina.saywhat.AWSModel;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.services.translate.AmazonTranslateAsyncClient;
