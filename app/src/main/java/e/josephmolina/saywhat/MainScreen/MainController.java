@@ -1,12 +1,8 @@
 package e.josephmolina.saywhat.MainScreen;
 
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
-import android.view.inputmethod.InputMethodManager;
 
 import e.josephmolina.saywhat.BuildConfig;
 import e.josephmolina.saywhat.Dialog.SayWhatDialog;
@@ -15,7 +11,6 @@ import e.josephmolina.saywhat.Model.YandexClient;
 import e.josephmolina.saywhat.Model.YandexResponse;
 import e.josephmolina.saywhat.R;
 import e.josephmolina.saywhat.RoomDB.SayWhatDatabase;
-import e.josephmolina.saywhat.SavedChatsScreen.SavedTranslationsScreen;
 import e.josephmolina.saywhat.TextToSpeechManager.TextToSpeechManager;
 import e.josephmolina.saywhat.Utils.Utils;
 import io.reactivex.Completable;
@@ -62,10 +57,9 @@ public class MainController implements MainLayout.MainLayoutListener {
 
     public void startVoiceInput() {
         if (textToSpeechManager != null) {
-            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+            Intent voiceIntent = Utils.createVoiceInputIntent();
             try {
-                mainActivity.startActivityForResult(intent, 1);
+                mainActivity.startActivityForResult(voiceIntent, 1);
             } catch (ActivityNotFoundException a) {
                 mainLayout.displayToast(mainActivity.getString(R.string.speech_to_text_unavailable_message));
             }
@@ -81,10 +75,10 @@ public class MainController implements MainLayout.MainLayoutListener {
     @Override
     public void onYandexCreditClicked() {
         if (Utils.isNetworkAvailable(mainActivity)) {
-            Uri webpage = Uri.parse("http://translate.yandex.com/");
-            Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-            if (intent.resolveActivity(mainActivity.getPackageManager()) != null) {
-                mainActivity.startActivity(intent);
+            Intent openYandexSiteIntent = Utils.createYandexCreditIntent();
+
+            if (openYandexSiteIntent.resolveActivity(mainActivity.getPackageManager()) != null) {
+                mainActivity.startActivity(openYandexSiteIntent);
             }
         } else {
             mainLayout.displayToast(mainActivity.getResources().getString(R.string.no_network_message));
@@ -98,14 +92,12 @@ public class MainController implements MainLayout.MainLayoutListener {
 
     @Override
     public void onViewTranslationsClicked() {
-        Intent goToSavedTranslationScreen = new Intent(mainActivity, SavedTranslationsScreen.class);
-        mainActivity.startActivity(goToSavedTranslationScreen);
+       Utils.launchSavedTranslationsScreen(mainActivity);
     }
 
     @Override
     public void onMainScreenClicked() {
-        InputMethodManager imm = (InputMethodManager) mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(mainActivity.getCurrentFocus().getWindowToken(), 0);
+        Utils.onScreenPressed(mainActivity);
     }
 
     public void saveTranslation(String title) {
@@ -133,12 +125,14 @@ public class MainController implements MainLayout.MainLayoutListener {
 
                         @Override
                         public void onComplete() {
-                            mainLayout.displayToast(mainActivity.getString(R.string.translation_saved_successfully_message));
+                            mainLayout.displayToast(mainActivity.getString(R.string
+                                    .translation_saved_successfully_message));
                         }
 
                         @Override
                         public void onError(Throwable e) {
-                            mainLayout.displayToast(mainActivity.getString(R.string.translation_unsuccessfully_saved_message));
+                            mainLayout.displayToast(mainActivity.getString(R.string
+                                    .translation_unsuccessfully_saved_message));
                         }
                     });
         }
