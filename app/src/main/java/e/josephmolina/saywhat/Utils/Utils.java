@@ -9,10 +9,15 @@ import android.speech.RecognizerIntent;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.regions.Regions;
+
 import e.josephmolina.saywhat.MainScreen.MainActivity;
 import e.josephmolina.saywhat.SavedChatsScreen.SavedTranslationsScreen;
 
 public final class Utils {
+    private static String COGNITO_POOL_ID = "us-west-2:080abe63-8a82-4f9a-8a03-b8f06da5c3af";
+    private static Regions MY_REGION = Regions.US_WEST_2;
 
     public static void onDisplayToast(Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
@@ -61,5 +66,14 @@ public final class Utils {
         Uri webpage = Uri.parse("http://translate.yandex.com/");
         Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
         return intent;
+    }
+
+    public static CognitoCachingCredentialsProvider getCognitoCachingCredentialsProvider(MainActivity activity) {
+
+        return new CognitoCachingCredentialsProvider(
+                activity.getApplicationContext(),
+                COGNITO_POOL_ID,
+                MY_REGION
+        );
     }
 }

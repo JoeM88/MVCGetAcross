@@ -92,7 +92,7 @@ public class MainController implements MainLayout.MainLayoutListener {
 
     @Override
     public void onViewTranslationsClicked() {
-       Utils.launchSavedTranslationsScreen(mainActivity);
+        Utils.launchSavedTranslationsScreen(mainActivity);
     }
 
     @Override

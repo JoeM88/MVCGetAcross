@@ -17,7 +17,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "e.josephmolina.saywhat"
-        minSdkVersion 24
+        minSdkVersion 23
         targetSdkVersion 27
         versionCode 3
         versionName "3.0"
