@@ -10,7 +10,11 @@ import e.josephmolina.saywhat.Utils.Utils;
 public class AWSComprehendClient {
     private static AmazonComprehendClient comprehendClient;
 
-    private AmazonComprehendClient getAWSComprehendClienInstance(MainActivity activity) {
+    private AWSComprehendClient() {
+
+    }
+
+    private static AmazonComprehendClient getAWSComprehendClientInstance(MainActivity activity) {
 
         if (comprehendClient != null) {
             return comprehendClient;
@@ -19,9 +23,9 @@ public class AWSComprehendClient {
         return comprehendClient;
     }
 
-    public String detectDominantLanguage(String text) {
+    public static String detectDominantLanguage(String text, MainActivity activity) {
         DetectDominantLanguageRequest detectDominantLanguageRequest =  new DetectDominantLanguageRequest().withText(text);
-        DetectDominantLanguageResult detectDominantLanguageResult = comprehendClient.detectDominantLanguage(detectDominantLanguageRequest);
+        DetectDominantLanguageResult detectDominantLanguageResult = getAWSComprehendClientInstance(activity).detectDominantLanguage(detectDominantLanguageRequest);
         return detectDominantLanguageResult.getLanguages().get(0).getLanguageCode();
     }
 }
