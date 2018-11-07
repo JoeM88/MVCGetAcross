@@ -9,6 +9,7 @@ import android.speech.RecognizerIntent;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.regions.Regions;
 
@@ -75,5 +76,19 @@ public final class Utils {
                 COGNITO_POOL_ID,
                 MY_REGION
         );
+    }
+
+    public static AWSCredentials getAWSCredentials() {
+        return new AWSCredentials() {
+            @Override
+            public String getAWSAccessKeyId() {
+                return "AKIAJMCH2PGZWTIIFJEA";
+            }
+
+            @Override
+            public String getAWSSecretKey() {
+                return "6naesVs+3kwt0bYcfeUqmE7z2n/mlXtM13JXnECC";
+            }
+        };
     }
 }

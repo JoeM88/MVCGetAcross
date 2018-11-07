@@ -3,8 +3,11 @@ package e.josephmolina.saywhat.MainScreen;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.speech.tts.TextToSpeech;
+import android.util.Log;
 
+import e.josephmolina.saywhat.AWSTranslate.AWSTranslateClient;
 import e.josephmolina.saywhat.BuildConfig;
+import e.josephmolina.saywhat.Comprehend.AWSComprehendClient;
 import e.josephmolina.saywhat.Dialog.SayWhatDialog;
 import e.josephmolina.saywhat.Model.SavedTranslation;
 import e.josephmolina.saywhat.Model.YandexClient;
@@ -16,6 +19,7 @@ import e.josephmolina.saywhat.Utils.Utils;
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 import io.reactivex.Single;
+import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -42,16 +46,38 @@ public class MainController implements MainLayout.MainLayoutListener {
                 });
     }
 
+//    private Single<String> getTranslation2(String text, MainActivity activity) {
+//        return  AWSComprehendClient.detectDominantLanguage(text,activity)
+//    }
+
     @Override
     public void onTranslateClicked(String text) {
         if (text.isEmpty()) {
             mainLayout.displayToast(mainActivity.getString(R.string.empty_text_error_message));
         } else {
 
-            getTranslation(text)
-                    .subscribeOn(Schedulers.newThread())
+
+            Single<String> detectDominantLanguageObserver = new Single<String>() {
+                @Override
+                protected void subscribeActual(SingleObserver<? super String> observer) {
+                    String dominantLanguage = AWSComprehendClient.detectDominantLanguage(text,mainActivity);
+                    Log.d("DOMINANT LANG", dominantLanguage);
+                }
+            };
+
+            detectDominantLanguageObserver.subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(mainLayout);
+                    .subscribe();
+
+
+
+
+            AWSTranslateClient.translateText(text);
+
+//            getTranslation(text)
+//                    .subscribeOn(Schedulers.newThread())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(mainLayout);
         }
     }
 
