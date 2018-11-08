@@ -24,20 +24,6 @@ public final class Utils {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
-    public static String getLanguagePair(String spokenLanguage) {
-        StringBuilder languagePair = new StringBuilder();
-        switch (spokenLanguage) {
-            case "en":
-                languagePair.append(spokenLanguage).append("-es");
-                break;
-
-            case "es":
-                languagePair.append(spokenLanguage).append("-en");
-                break;
-        }
-        return languagePair.toString();
-    }
-
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager cm =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
