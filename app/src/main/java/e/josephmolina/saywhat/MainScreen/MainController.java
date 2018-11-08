@@ -38,23 +38,25 @@ public class MainController implements MainLayout.MainLayoutListener {
         interpret = new Interpret(mainActivity);
     }
 
+    private Single<String> getTranslation(String text) {
+        return Single.fromCallable(new Callable<String>() {
+
+            @Override
+            public String call() {
+                String detectedLanguageCode = interpret.detectLanguage(text);
+                String targetLanguageCode = (detectedLanguageCode.equals("en")) ? "es" : "en";
+                return interpret.translateText(text, detectedLanguageCode, targetLanguageCode);
+            }
+        });
+    }
+
     @Override
     public void onTranslateClicked(String text) {
         if (text.isEmpty()) {
             mainLayout.displayToast(mainActivity.getString(R.string.empty_text_error_message));
         }
         else {
-            Single<String> translatedTextSingle = Single.fromCallable(new Callable<String>() {
-
-                @Override
-                public String call() {
-                    String detectedLanguageCode = interpret.detectLanguage(text);
-                    String targetLanguageCode = (detectedLanguageCode.equals("en")) ? "es" : "en";
-                    return interpret.translateText(text, detectedLanguageCode, targetLanguageCode);
-                }
-            });
-
-            translatedTextSingle
+            getTranslation(text)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<String>() {
