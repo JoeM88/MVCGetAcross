@@ -1,6 +1,7 @@
 package e.josephmolina.saywhat.language;
 
-import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.services.comprehend.AmazonComprehendClient;
 import com.amazonaws.services.comprehend.model.DetectDominantLanguageRequest;
 import com.amazonaws.services.comprehend.model.DetectDominantLanguageResult;
@@ -12,7 +13,8 @@ public class Interpret {
     private AmazonComprehendClient comprehendClient;
     private AmazonTranslateClient translateClient;
 
-    public Interpret(CognitoCachingCredentialsProvider credentialsProvider) {
+    public Interpret() {
+        AWSCredentialsProvider credentialsProvider = AWSMobileClient.getInstance().getCredentialsProvider();
         comprehendClient = new AmazonComprehendClient(credentialsProvider);
         translateClient = new AmazonTranslateClient(credentialsProvider);
     }
