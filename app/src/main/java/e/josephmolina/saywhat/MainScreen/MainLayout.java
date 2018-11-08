@@ -1,7 +1,6 @@
 package e.josephmolina.saywhat.MainScreen;
 
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -11,13 +10,10 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import e.josephmolina.saywhat.Model.YandexResponse;
 import e.josephmolina.saywhat.R;
 import e.josephmolina.saywhat.Utils.Utils;
-import io.reactivex.SingleObserver;
-import io.reactivex.disposables.Disposable;
 
-public class MainLayout implements SingleObserver<YandexResponse> {
+public class MainLayout {
 
     private MainLayoutListener mainLayoutListener;
     private MainActivity mainActivity;
@@ -28,8 +24,6 @@ public class MainLayout implements SingleObserver<YandexResponse> {
     EditText spokenText;
     @BindView(R.id.translatedTextResults)
     TextView translatedText;
-    @BindView(R.id.yandexCredit)
-    TextView yandexCredit;
     @BindView(R.id.speakButton)
     ImageView speakButton;
     @BindView(R.id.indeterminateBar)
@@ -54,11 +48,6 @@ public class MainLayout implements SingleObserver<YandexResponse> {
         mainLayoutListener.onTranslateClicked(spokenText.getText().toString());
     }
 
-    @OnClick(R.id.yandexCredit)
-    public void onYandexCredit() {
-        mainLayoutListener.onYandexCreditClicked();
-    }
-
     @OnClick(R.id.speakButton)
     public void onSpeakButton() {
         mainLayoutListener.onSpeakClicked(translatedText.getText().toString());
@@ -74,23 +63,6 @@ public class MainLayout implements SingleObserver<YandexResponse> {
         mainLayoutListener.onMainScreenClicked();
     }
 
-    @Override
-    public void onSubscribe(Disposable d) {
-        indetermindateBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onSuccess(YandexResponse yandexResponse) {
-        indetermindateBar.setVisibility(View.GONE);
-        translatedText.setText(yandexResponse.getText().get(0));
-    }
-
-    @Override
-    public void onError(Throwable error) {
-        indetermindateBar.setVisibility(View.GONE);
-        // TODO: Display a better error message/ Fix toast not appearing.
-        displayToast(error.getMessage());
-    }
 
     public void displayToast(String message) {
         Utils.onDisplayToast(mainActivity, message);
@@ -98,8 +70,6 @@ public class MainLayout implements SingleObserver<YandexResponse> {
 
     interface MainLayoutListener {
         void onTranslateClicked(String text);
-
-        void onYandexCreditClicked();
 
         void onSpeakClicked(String text);
 
