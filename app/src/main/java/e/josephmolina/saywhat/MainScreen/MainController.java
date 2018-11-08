@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 
-import com.amazonaws.auth.CognitoCachingCredentialsProvider;
-
 import java.util.concurrent.Callable;
 
 import e.josephmolina.saywhat.Dialog.SayWhatDialog;
@@ -29,6 +27,7 @@ public class MainController implements MainLayout.MainLayoutListener {
 
     private MainLayout mainLayout;
     private MainActivity mainActivity;
+
     private TextToSpeech textToSpeechManager;
     private Interpret interpret;
 
@@ -37,8 +36,7 @@ public class MainController implements MainLayout.MainLayoutListener {
         this.mainActivity = mainActivity;
         textToSpeechManager = TextToSpeechManager.getTextToSpeechInstance(mainActivity);
 
-        CognitoCachingCredentialsProvider credentialsProvider = Utils.getCognitoCachingCredentialsProvider(mainActivity);
-        interpret = new Interpret(credentialsProvider);
+        interpret = new Interpret();
     }
 
     private Single<String> getTranslation(String text) {

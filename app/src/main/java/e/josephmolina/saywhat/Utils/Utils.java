@@ -17,8 +17,6 @@ import e.josephmolina.saywhat.MainScreen.MainActivity;
 import e.josephmolina.saywhat.SavedChatsScreen.SavedTranslationsScreen;
 
 public final class Utils {
-    private static String COGNITO_POOL_ID = "us-west-2:080abe63-8a82-4f9a-8a03-b8f06da5c3af";
-    private static Regions MY_REGION = Regions.US_WEST_2;
 
     public static void onDisplayToast(Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
@@ -47,28 +45,5 @@ public final class Utils {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         return intent;
-    }
-
-    public static CognitoCachingCredentialsProvider getCognitoCachingCredentialsProvider(MainActivity activity) {
-
-        return new CognitoCachingCredentialsProvider(
-                activity.getApplicationContext(),
-                COGNITO_POOL_ID,
-                MY_REGION
-        );
-    }
-
-    public static AWSCredentials getAWSCredentials() {
-        return new AWSCredentials() {
-            @Override
-            public String getAWSAccessKeyId() {
-                return "AKIAJMCH2PGZWTIIFJEA";
-            }
-
-            @Override
-            public String getAWSSecretKey() {
-                return "6naesVs+3kwt0bYcfeUqmE7z2n/mlXtM13JXnECC";
-            }
-        };
     }
 }

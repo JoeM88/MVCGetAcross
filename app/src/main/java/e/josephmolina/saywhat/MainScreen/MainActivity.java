@@ -9,6 +9,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.util.Log;
+
+import com.amazonaws.mobile.auth.core.IdentityHandler;
+import com.amazonaws.mobile.auth.core.IdentityManager;
+import com.amazonaws.mobile.client.AWSMobileClient;
+import com.amazonaws.mobile.client.AWSStartupHandler;
+import com.amazonaws.mobile.client.AWSStartupResult;
 
 import com.crashlytics.android.Crashlytics;
 
@@ -25,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements SayWhatDialog.Dia
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
+        initializeAWSMobileClient();
         controller = new MainController(this);
     }
 
@@ -79,5 +87,31 @@ public class MainActivity extends AppCompatActivity implements SayWhatDialog.Dia
     protected void onDestroy() {
         super.onDestroy();
         controller.cleanUp();
+    }
+
+    void initializeAWSMobileClient() {
+        AWSMobileClient.getInstance().initialize(this, new AWSStartupHandler() {
+            @Override
+            public void onComplete(AWSStartupResult awsStartupResult) {
+
+                //Make a network call to retrieve the identity ID
+                // using IdentityManager. onIdentityId happens upon success.
+                IdentityManager.getDefaultIdentityManager().getUserID(new IdentityHandler() {
+
+                    @Override
+                    public void onIdentityId(String s) {
+                        //The network call to fetch AWS credentials succeeded, the cached
+                        // user ID is available from IdentityManager throughout your app
+                        Log.d("MainActivity", "Identity ID is: " + s);
+                        Log.d("MainActivity", "Cached Identity ID: " + IdentityManager.getDefaultIdentityManager().getCachedUserID());
+                    }
+
+                    @Override
+                    public void handleError(Exception e) {
+                        Log.e("MainActivity", "Error in retrieving Identity ID: " + e.getMessage());
+                    }
+                });
+            }
+        }).execute();
     }
 }
