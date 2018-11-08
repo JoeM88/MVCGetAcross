@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 
-import e.josephmolina.saywhat.AWSTranslate.AWSTranslateClient;
+
+import java.util.concurrent.Callable;
+
 import e.josephmolina.saywhat.BuildConfig;
-import e.josephmolina.saywhat.Comprehend.AWSComprehendClient;
 import e.josephmolina.saywhat.Dialog.SayWhatDialog;
+import e.josephmolina.saywhat.Language.DetectionService;
+import e.josephmolina.saywhat.Language.TranslationService;
 import e.josephmolina.saywhat.Model.SavedTranslation;
 import e.josephmolina.saywhat.Model.YandexClient;
 import e.josephmolina.saywhat.Model.YandexResponse;
@@ -30,11 +33,16 @@ public class MainController implements MainLayout.MainLayoutListener {
     private MainLayout mainLayout;
     private MainActivity mainActivity;
     private TextToSpeech textToSpeechManager;
+    private DetectionService detectionService;
+    private TranslationService translationService;
 
     public MainController(MainActivity mainActivity) {
         mainLayout = new MainLayout(mainActivity, this);
         this.mainActivity = mainActivity;
         textToSpeechManager = TextToSpeechManager.getTextToSpeechInstance(mainActivity);
+
+        detectionService = new DetectionService(mainActivity);
+        translationService = new TranslationService(mainActivity);
     }
 
     private Single<YandexResponse> getTranslation(String text) {
@@ -46,38 +54,41 @@ public class MainController implements MainLayout.MainLayoutListener {
                 });
     }
 
-//    private Single<String> getTranslation2(String text, MainActivity activity) {
-//        return  AWSComprehendClient.detectDominantLanguage(text,activity)
-//    }
-
     @Override
     public void onTranslateClicked(String text) {
         if (text.isEmpty()) {
             mainLayout.displayToast(mainActivity.getString(R.string.empty_text_error_message));
-        } else {
+        }
+        else {
+            Single<String> translatedTextSingle = Single.fromCallable(new Callable<String>() {
 
-
-            Single<String> detectDominantLanguageObserver = new Single<String>() {
                 @Override
-                protected void subscribeActual(SingleObserver<? super String> observer) {
-                    String dominantLanguage = AWSComprehendClient.detectDominantLanguage(text,mainActivity);
-                    Log.d("DOMINANT LANG", dominantLanguage);
+                public String call() {
+                    String detectedLanguageCode = detectionService.detectLanguage(text);
+                    String targetLanguageCode = (detectedLanguageCode.equals("en")) ? "es" : "en";
+                    return translationService.translateText(text, detectedLanguageCode, targetLanguageCode);
                 }
-            };
+            });
 
-            detectDominantLanguageObserver.subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe();
+            translatedTextSingle
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
+                    }
 
+                    @Override
+                    public void onSuccess(String translatedText) {
+                        mainLayout.translatedText.setText(translatedText);
+                    }
 
-
-            AWSTranslateClient.translateText(text);
-
-//            getTranslation(text)
-//                    .subscribeOn(Schedulers.newThread())
-//                    .observeOn(AndroidSchedulers.mainThread())
-//                    .subscribe(mainLayout);
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("Translation Error", e.getMessage());
+                    }
+                });
         }
     }
 
