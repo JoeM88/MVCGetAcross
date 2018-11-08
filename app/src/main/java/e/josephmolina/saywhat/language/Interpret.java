@@ -8,15 +8,11 @@ import com.amazonaws.services.translate.AmazonTranslateClient;
 import com.amazonaws.services.translate.model.TranslateTextRequest;
 import com.amazonaws.services.translate.model.TranslateTextResult;
 
-import e.josephmolina.saywhat.MainScreen.MainActivity;
-import e.josephmolina.saywhat.Utils.Utils;
-
 public class Interpret {
     private AmazonComprehendClient comprehendClient;
     private AmazonTranslateClient translateClient;
 
-    public Interpret(MainActivity activity) {
-        CognitoCachingCredentialsProvider credentialsProvider = Utils.getCognitoCachingCredentialsProvider(activity);
+    public Interpret(CognitoCachingCredentialsProvider credentialsProvider) {
         comprehendClient = new AmazonComprehendClient(credentialsProvider);
         translateClient = new AmazonTranslateClient(credentialsProvider);
     }
