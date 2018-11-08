@@ -10,8 +10,7 @@ import java.util.concurrent.Callable;
 
 import e.josephmolina.saywhat.BuildConfig;
 import e.josephmolina.saywhat.Dialog.SayWhatDialog;
-import e.josephmolina.saywhat.Language.DetectionService;
-import e.josephmolina.saywhat.Language.TranslationService;
+import e.josephmolina.saywhat.language.Interpret;
 import e.josephmolina.saywhat.Model.SavedTranslation;
 import e.josephmolina.saywhat.Model.YandexClient;
 import e.josephmolina.saywhat.Model.YandexResponse;
@@ -33,16 +32,14 @@ public class MainController implements MainLayout.MainLayoutListener {
     private MainLayout mainLayout;
     private MainActivity mainActivity;
     private TextToSpeech textToSpeechManager;
-    private DetectionService detectionService;
-    private TranslationService translationService;
+    private Interpret interpret;
 
     public MainController(MainActivity mainActivity) {
         mainLayout = new MainLayout(mainActivity, this);
         this.mainActivity = mainActivity;
         textToSpeechManager = TextToSpeechManager.getTextToSpeechInstance(mainActivity);
 
-        detectionService = new DetectionService(mainActivity);
-        translationService = new TranslationService(mainActivity);
+        interpret = new Interpret(mainActivity);
     }
 
     private Single<YandexResponse> getTranslation(String text) {
@@ -64,9 +61,9 @@ public class MainController implements MainLayout.MainLayoutListener {
 
                 @Override
                 public String call() {
-                    String detectedLanguageCode = detectionService.detectLanguage(text);
+                    String detectedLanguageCode = interpret.detectLanguage(text);
                     String targetLanguageCode = (detectedLanguageCode.equals("en")) ? "es" : "en";
-                    return translationService.translateText(text, detectedLanguageCode, targetLanguageCode);
+                    return interpret.translateText(text, detectedLanguageCode, targetLanguageCode);
                 }
             });
 
