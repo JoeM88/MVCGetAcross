@@ -5,15 +5,11 @@ import android.content.Intent;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 
-
 import java.util.concurrent.Callable;
 
-import e.josephmolina.saywhat.BuildConfig;
 import e.josephmolina.saywhat.Dialog.SayWhatDialog;
 import e.josephmolina.saywhat.language.Interpret;
 import e.josephmolina.saywhat.Model.SavedTranslation;
-import e.josephmolina.saywhat.Model.YandexClient;
-import e.josephmolina.saywhat.Model.YandexResponse;
 import e.josephmolina.saywhat.R;
 import e.josephmolina.saywhat.RoomDB.SayWhatDatabase;
 import e.josephmolina.saywhat.TextToSpeechManager.TextToSpeechManager;
@@ -40,15 +36,6 @@ public class MainController implements MainLayout.MainLayoutListener {
         textToSpeechManager = TextToSpeechManager.getTextToSpeechInstance(mainActivity);
 
         interpret = new Interpret(mainActivity);
-    }
-
-    private Single<YandexResponse> getTranslation(String text) {
-        String API_KEY = BuildConfig.ApiKey;
-        return YandexClient.getRetrofitInstance().getSpokenLanguage(API_KEY, text)
-                .flatMap(detectLanguageResponse -> {
-                    String languagePair = Utils.getLanguagePair(detectLanguageResponse.getLang());
-                    return YandexClient.getRetrofitInstance().getTranslation(API_KEY, text, languagePair);
-                });
     }
 
     @Override
@@ -104,19 +91,6 @@ public class MainController implements MainLayout.MainLayoutListener {
     public void displaySpeechToTextResults(String results) {
         mainLayout.spokenText.setText(results);
         onTranslateClicked(results);
-    }
-
-    @Override
-    public void onYandexCreditClicked() {
-        if (Utils.isNetworkAvailable(mainActivity)) {
-            Intent openYandexSiteIntent = Utils.createYandexCreditIntent();
-
-            if (openYandexSiteIntent.resolveActivity(mainActivity.getPackageManager()) != null) {
-                mainActivity.startActivity(openYandexSiteIntent);
-            }
-        } else {
-            mainLayout.displayToast(mainActivity.getResources().getString(R.string.no_network_message));
-        }
     }
 
     @Override

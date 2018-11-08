@@ -63,12 +63,6 @@ public final class Utils {
         return intent;
     }
 
-    public static Intent createYandexCreditIntent() {
-        Uri webpage = Uri.parse("http://translate.yandex.com/");
-        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-        return intent;
-    }
-
     public static CognitoCachingCredentialsProvider getCognitoCachingCredentialsProvider(MainActivity activity) {
 
         return new CognitoCachingCredentialsProvider(
