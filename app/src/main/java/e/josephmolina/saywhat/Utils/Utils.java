@@ -6,11 +6,17 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.speech.RecognizerIntent;
+import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.mobile.auth.core.IdentityHandler;
+import com.amazonaws.mobile.auth.core.IdentityManager;
+import com.amazonaws.mobile.client.AWSMobileClient;
+import com.amazonaws.mobile.client.AWSStartupHandler;
+import com.amazonaws.mobile.client.AWSStartupResult;
 import com.amazonaws.regions.Regions;
 
 import e.josephmolina.saywhat.MainScreen.MainActivity;
@@ -45,5 +51,31 @@ public final class Utils {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         return intent;
+    }
+
+    public static void initializeAWSMobileClient(MainActivity activity) {
+        AWSMobileClient.getInstance().initialize(activity, new AWSStartupHandler() {
+            @Override
+            public void onComplete(AWSStartupResult awsStartupResult) {
+
+                //Make a network call to retrieve the identity ID
+                // using IdentityManager. onIdentityId happens upon success.
+                IdentityManager.getDefaultIdentityManager().getUserID(new IdentityHandler() {
+
+                    @Override
+                    public void onIdentityId(String s) {
+                        //The network call to fetch AWS credentials succeeded, the cached
+                        // user ID is available from IdentityManager throughout your app
+                        Log.d("MainActivity", "Identity ID is: " + s);
+                        Log.d("MainActivity", "Cached Identity ID: " + IdentityManager.getDefaultIdentityManager().getCachedUserID());
+                    }
+
+                    @Override
+                    public void handleError(Exception e) {
+                        Log.e("MainActivity", "Error in retrieving Identity ID: " + e.getMessage());
+                    }
+                });
+            }
+        }).execute();
     }
 }
