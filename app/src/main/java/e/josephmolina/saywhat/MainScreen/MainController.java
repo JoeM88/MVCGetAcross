@@ -3,21 +3,19 @@ package e.josephmolina.saywhat.MainScreen;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.speech.tts.TextToSpeech;
-import android.util.Log;
 
 import java.util.concurrent.Callable;
 
 import e.josephmolina.saywhat.Dialog.SayWhatDialog;
-import e.josephmolina.saywhat.language.Interpret;
 import e.josephmolina.saywhat.Model.SavedTranslation;
 import e.josephmolina.saywhat.R;
 import e.josephmolina.saywhat.RoomDB.SayWhatDatabase;
 import e.josephmolina.saywhat.TextToSpeechManager.TextToSpeechManager;
 import e.josephmolina.saywhat.Utils.Utils;
+import e.josephmolina.saywhat.language.Interpret;
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 import io.reactivex.Single;
-import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -60,22 +58,7 @@ public class MainController implements MainLayout.MainLayoutListener {
             getTranslation(text)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<String>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onSuccess(String translatedText) {
-                        mainLayout.translatedText.setText(translatedText);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d("Translation Error", e.getMessage());
-                    }
-                });
+                .subscribe(mainLayout);
         }
     }
 

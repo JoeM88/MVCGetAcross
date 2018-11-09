@@ -1,6 +1,7 @@
 package e.josephmolina.saywhat.MainScreen;
 
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -12,8 +13,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import e.josephmolina.saywhat.R;
 import e.josephmolina.saywhat.Utils.Utils;
+import io.reactivex.SingleObserver;
+import io.reactivex.disposables.Disposable;
 
-public class MainLayout {
+public class MainLayout implements SingleObserver<String>{
 
     private MainLayoutListener mainLayoutListener;
     private MainActivity mainActivity;
@@ -66,6 +69,23 @@ public class MainLayout {
 
     public void displayToast(String message) {
         Utils.onDisplayToast(mainActivity, message);
+    }
+
+    @Override
+    public void onSubscribe(Disposable d) {
+        indetermindateBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onSuccess(String text) {
+        indetermindateBar.setVisibility(View.INVISIBLE);
+        translatedText.setText(text);
+    }
+
+    @Override
+    public void onError(Throwable e) {
+        indetermindateBar.setVisibility(View.INVISIBLE);
+        displayToast(e.getMessage());
     }
 
     interface MainLayoutListener {
