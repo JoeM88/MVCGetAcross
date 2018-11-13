@@ -10,6 +10,7 @@ import e.josephmolina.saywhat.Dialog.SayWhatDialog;
 import e.josephmolina.saywhat.Model.SavedTranslation;
 import e.josephmolina.saywhat.R;
 import e.josephmolina.saywhat.RoomDB.SayWhatDatabase;
+import e.josephmolina.saywhat.Speech.PollyClient;
 import e.josephmolina.saywhat.TextToSpeechManager.TextToSpeechManager;
 import e.josephmolina.saywhat.Utils.Utils;
 import e.josephmolina.saywhat.language.Interpret;
@@ -39,9 +40,8 @@ public class MainController implements MainLayout.MainLayoutListener {
 
     private Single<String> getTranslation(String text) {
         return Single.fromCallable(new Callable<String>() {
-
             @Override
-            public String call() {
+            public String call() throws Exception {
                 String detectedLanguageCode = interpret.detectLanguage(text);
                 String targetLanguageCode = (detectedLanguageCode.equals("en")) ? "es" : "en";
                 return interpret.translateText(text, detectedLanguageCode, targetLanguageCode);
@@ -53,12 +53,11 @@ public class MainController implements MainLayout.MainLayoutListener {
     public void onTranslateClicked(String text) {
         if (text.isEmpty()) {
             mainLayout.displayToast(mainActivity.getString(R.string.empty_text_error_message));
-        }
-        else {
+        } else {
             getTranslation(text)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mainLayout);
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(mainLayout);
         }
     }
 
@@ -73,7 +72,6 @@ public class MainController implements MainLayout.MainLayoutListener {
         }
     }
 
-
     public void displaySpeechToTextResults(String results) {
         mainLayout.spokenText.setText(results);
         onTranslateClicked(results);
@@ -81,7 +79,29 @@ public class MainController implements MainLayout.MainLayoutListener {
 
     @Override
     public void onSpeakClicked(String text) {
-        textToSpeechManager.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
+
+        Completable.fromCallable((Callable<Void>) () -> {
+            PollyClient pollyClient = new PollyClient();
+            pollyClient.speak(text);
+            return null;
+        }).subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        mainLayout.displayToast("Speaking...");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mainLayout.displayToast("Unable to speak");
+                    }
+                });
     }
 
     @Override
