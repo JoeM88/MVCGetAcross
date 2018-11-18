@@ -1,4 +1,4 @@
-package e.josephmolina.saywhat.Speech;
+package e.josephmolina.saywhat.language;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -14,15 +14,14 @@ import java.io.IOException;
 import java.net.URL;
 
 import e.josephmolina.saywhat.Utils.Utils;
-import e.josephmolina.saywhat.language.Interpret;
 
-public class PollyClient {
+public class Speech {
     private AmazonPollyPresigningClient pollyClient;
     private Interpret interpret;
     private final String ENGLISH_VOICE_ID = "Joey";
     private final String SPANISH_VOICE_ID = "Mia";
 
-    public PollyClient() {
+    public Speech() {
         AWSCredentialsProvider credentialsProvider = AWSMobileClient.getInstance().getCredentialsProvider();
         pollyClient = new AmazonPollyPresigningClient(credentialsProvider);
         interpret = new Interpret();

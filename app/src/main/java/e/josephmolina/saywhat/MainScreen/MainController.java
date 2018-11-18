@@ -10,7 +10,7 @@ import e.josephmolina.saywhat.Dialog.SayWhatDialog;
 import e.josephmolina.saywhat.Model.SavedTranslation;
 import e.josephmolina.saywhat.R;
 import e.josephmolina.saywhat.RoomDB.SayWhatDatabase;
-import e.josephmolina.saywhat.Speech.PollyClient;
+import e.josephmolina.saywhat.language.Speech;
 import e.josephmolina.saywhat.TextToSpeechManager.TextToSpeechManager;
 import e.josephmolina.saywhat.Utils.Utils;
 import e.josephmolina.saywhat.language.Interpret;
@@ -29,13 +29,13 @@ public class MainController implements MainLayout.MainLayoutListener {
 
     private TextToSpeech textToSpeechManager;
     private Interpret interpret;
-    private PollyClient pollyClient;
+    private Speech pollyClient;
 
     public MainController(MainActivity mainActivity) {
         mainLayout = new MainLayout(mainActivity, this);
         this.mainActivity = mainActivity;
         textToSpeechManager = TextToSpeechManager.getTextToSpeechInstance(mainActivity);
-        pollyClient = new PollyClient();
+        pollyClient = new Speech();
 
         interpret = new Interpret();
     }
