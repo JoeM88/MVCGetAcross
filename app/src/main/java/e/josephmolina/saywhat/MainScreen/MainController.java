@@ -29,13 +29,13 @@ public class MainController implements MainLayout.MainLayoutListener {
 
     private TextToSpeech textToSpeechManager;
     private Interpret interpret;
-    private Speech pollyClient;
+    private Speech speech;
 
     public MainController(MainActivity mainActivity) {
         mainLayout = new MainLayout(mainActivity, this);
         this.mainActivity = mainActivity;
         textToSpeechManager = TextToSpeechManager.getTextToSpeechInstance(mainActivity);
-        pollyClient = new Speech();
+        speech = new Speech();
 
         interpret = new Interpret();
     }
@@ -83,7 +83,7 @@ public class MainController implements MainLayout.MainLayoutListener {
     public void onSpeakClicked(String text) {
 
         Completable.fromCallable((Callable<Void>) () -> {
-            pollyClient.speak(text);
+            speech.speak(text);
             return null;
         }).subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
