@@ -18,6 +18,6 @@
     <string name="saving_toast_message">Saving…</string>
     <string name="translation_saved_successfully_message">Translation saved</string>
     <string name="translation_unsuccessfully_saved_message">Unable to save translation</string>
-    <string name="empty_recyclerview_message">You have not saved anything</string>
+    <string name="empty_recyclerview_message">Your saved translations will show up here after you add them from the main page!</string>
 
 </resources>
