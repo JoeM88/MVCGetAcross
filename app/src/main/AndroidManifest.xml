@@ -11,6 +11,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round2"
         android:supportsRtl="true"
+        android:name=".Modules.SayWhatApp"
         android:theme="@style/AppTheme">
         <activity android:name=".MainScreen.MainActivity"
             android:parentActivityName=".MainScreen.MainActivity"
