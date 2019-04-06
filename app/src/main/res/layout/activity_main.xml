@@ -10,24 +10,42 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
-    <EditText
-        android:id="@+id/textToTranslateEditText"
-        android:layout_width="0dp"
+    <android.support.v7.widget.CardView
+        android:id="@+id/textToTranslateCard"
+        android:layout_width="350dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="top|start"
-        android:hint="@string/main_screen_input_hint"
-        android:maxLines="10"
-        android:inputType = "textMultiLine"
-        android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/frameLayout"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
+        android:padding="20dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/translatedTextResultsCard"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.471"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0">
+
+        <EditText
+            android:id="@+id/textToTranslateEditText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@android:color/transparent"
+            android:fontFamily="@font/roboto_light"
+            android:gravity="center_horizontal|center"
+            android:hint="@string/main_screen_input_hint"
+            android:importantForAutofill="no"
+            android:inputType="textMultiLine"
+            android:maxLines="10"
+            android:scrollbars="vertical"
+            android:textAlignment="gravity" />
+
+    </android.support.v7.widget.CardView>
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
@@ -36,77 +54,113 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5" />
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="24dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/translateButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/speakButton"
-        app:layout_constraintTop_toBottomOf="@id/guideline">
 
-        <ScrollView
+    <android.support.v7.widget.CardView
+        android:id="@+id/translatedTextResultsCard"
+        android:layout_width="350dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="12.5dp"
+        android:layout_marginBottom="25dp"
+        android:padding="20dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/translateButton"
+        app:layout_constraintEnd_toEndOf="@id/textToTranslateCard"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textToTranslateCard"
+        app:layout_constraintTop_toBottomOf="@id/guideline"
+        app:layout_constraintVertical_bias="0.0">
+
+        <FrameLayout
+            android:id="@+id/frameLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp">
+            android:layout_marginBottom="24dp">
 
-            <TextView
-                android:id="@+id/translatedTextResults"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:freezesText="true"
-                android:maxLines="10"
-                android:scrollbars="vertical"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp">
 
-        </ScrollView>
+                <TextView
+                    android:id="@+id/translatedTextResults"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:freezesText="true"
+                    android:gravity="center"
+                    android:maxLines="10"
+                    android:scrollbars="vertical"
+                    android:textAlignment="gravity"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
-    </FrameLayout>
+            </ScrollView>
 
-    <ImageButton
-        android:id="@+id/speakButton"
-        android:layout_width="45dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@android:color/transparent"
-        android:foreground="?android:attr/selectableItemBackground"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textToTranslateEditText"
-        app:srcCompat="@mipmap/ic_speak" />
+        </FrameLayout>
+    </android.support.v7.widget.CardView>
 
     <Button
         android:id="@+id/translateButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/ripple_effect"
+        android:drawableStart="@drawable/ic_translate_white_24dp"
+        android:fontFamily="@font/roboto"
+        android:gravity="start|center_vertical"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:text="@string/translate_button_text"
+        android:textAllCaps="false"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/speakButton"
+
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/speakButton"
+        android:layout_width="50dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/speak_text_title"
+        android:elevation="5dp"
+        android:foreground="?attr/selectableItemBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/translateButton"
+        app:srcCompat="@mipmap/ic_speak" />
 
     <ProgressBar
         android:id="@+id/indeterminateBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
+        app:layout_constraintBottom_toBottomOf="@+id/translatedTextResultsCard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/frameLayout" />
+        app:layout_constraintTop_toTopOf="@+id/translatedTextResultsCard" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="20dp" />
 
 </android.support.constraint.ConstraintLayout>

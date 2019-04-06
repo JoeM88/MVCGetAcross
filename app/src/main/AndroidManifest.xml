@@ -26,6 +26,9 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="0e0de57ede62221a0687b1f005c720955492c17e" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
         <activity
             android:name=".SavedChatsScreen.SavedTranslationsScreen"

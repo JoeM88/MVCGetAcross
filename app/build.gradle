@@ -23,6 +23,8 @@ android {
         versionName "4.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         javaCompileOptions.annotationProcessorOptions.includeCompileClasspath = true
+        vectorDrawables.useSupportLibrary = true
+
     }
     buildTypes {
         debug {
