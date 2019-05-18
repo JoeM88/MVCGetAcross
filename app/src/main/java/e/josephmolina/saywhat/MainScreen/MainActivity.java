@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity implements SayWhatDialog.Dia
 
     private MainController controller;
 
+    int chad = 23423432;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
