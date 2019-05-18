@@ -28,6 +28,7 @@ import io.fabric.sdk.android.Fabric;
 public class MainActivity extends AppCompatActivity implements SayWhatDialog.DialogListener {
 
     private MainController controller;
+    private int x = 25;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
