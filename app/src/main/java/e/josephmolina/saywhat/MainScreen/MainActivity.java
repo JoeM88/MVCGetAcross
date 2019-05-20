@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements SayWhatDialog.Dia
     private MainController controller;
 
     int chad = 23423432;
+    int anothertest = 25;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
