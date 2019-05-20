@@ -70,8 +70,4 @@ public final class Utils {
     public static String determineTargetLanguageCode(String detectedLanguageCode) {
         return (detectedLanguageCode.equals("en")) ? "es" : "en";
     }
-
-    public static String dummy() {
-        return "";
-    }
 }
