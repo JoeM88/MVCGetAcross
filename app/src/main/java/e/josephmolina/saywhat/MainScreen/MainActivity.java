@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements SayWhatDialog.Dia
 
     int chad = 23423432;
     int anothertest = 25;
+    int anotheranothertest = 222;
+
 
 
     @Override
