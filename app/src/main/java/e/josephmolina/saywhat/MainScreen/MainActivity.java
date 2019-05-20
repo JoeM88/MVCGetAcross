@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements SayWhatDialog.Dia
     int anothertest = 25;
     int anotheranothertest = 222;
     boolean mansnothot = false;
-
+    String sal = "Sal";
 
 
     @Override
