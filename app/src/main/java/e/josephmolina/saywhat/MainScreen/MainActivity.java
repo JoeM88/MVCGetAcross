@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements SayWhatDialog.Dia
     String sal = "Sal";
     String pepe = "pepe";
     char ben = 'b';
+    String testing = "test hope it work";
 
 
     @Override
