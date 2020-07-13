@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("e.josephmolina.getacross2", appContext.getPackageName());
+        assertEquals("e.josephmolina.saywhat", appContext.getPackageName());
     }
 }

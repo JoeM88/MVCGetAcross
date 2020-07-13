@@ -29,6 +29,17 @@ public class MainActivity extends AppCompatActivity implements SayWhatDialog.Dia
 
     private MainController controller;
 
+    int chad = 23423432;
+    int anothertest = 25;
+    int anotheranothertest = 222;
+    boolean mansnothot = false;
+    String sal = "Sal";
+    String pepe = "pepe";
+    char ben = 'b';
+    String testing = "test hope it work";
+    boolean sal2 = false;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
